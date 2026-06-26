@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Nível de Atividade</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/paginas/atividade.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
+
+                <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
+            </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%;"></div>
+        </div>
+
+    </div>
+
+    <h2>Qual seu nível de atividade?</h2>
+
+    <p class="subtitle">
+        Escolha a opção que melhor representa sua rotina semanal.
+    </p>
+
+    <form method="POST">
+
+        <div class="activity-grid">
+
+            <label class="activity-card">
+                <input type="radio" name="atividade" value="sedentario" required>
+                <h3>Sedentário</h3>
+                <p>Pouco ou nenhum exercício.</p>
+            </label>
+
+            <label class="activity-card">
+                <input type="radio" name="atividade" value="leve" required>
+                <h3>Leve</h3>
+                <p>1 a 3 treinos por semana.</p>
+            </label>
+
+            <label class="activity-card">
+                <input type="radio" name="atividade" value="moderado" required>
+                <h3>Moderado</h3>
+                <p>3 a 5 treinos por semana.</p>
+            </label>
+
+            <label class="activity-card">
+                <input type="radio" name="atividade" value="intenso" required>
+                <h3>Intenso</h3>
+                <p>6+ treinos ou rotina fisicamente exigente.</p>
+            </label>
+
+        </div>
+
+        <button type="submit">Calcular plano</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

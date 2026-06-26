@@ -1,0 +1,55 @@
+# Ambiente virtual
+venv/
+.venv/
+
+# Variáveis de ambiente
+.env
+.env.local
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos temporários
+*.tmp
+*.log
+
+# Banco de dados local
+*.db
+*.sqlite3
+
+# Arquivos de sessão Flask
+flask_session/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Configuração do VS Code
+.vscode/
+
+# Arquivos do PyCharm
+.idea/
+
+# Build e distribuição
+build/
+dist/
+*.egg-info/
+
+# Uploads temporários
+uploads/
+
+# Arquivos zipados e exports
+*.zip
+*.rar
+*.7z
+*.pdf
+
+# Modelos locais / pesos (caso use)
+models/
+*.gguf
+
+# Node modules (se futuramente usar frontend separado)
+node_modules/

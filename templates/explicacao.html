@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Seu plano</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/paginas/explicacao.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <<div class="logo">
+                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
+
+                <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
+            </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+
+    </div>
+
+    <h2>Seu plano está pronto</h2>
+
+    <p class="subtitle">
+        Essa é a estratégia escolhida para sua evolução.
+    </p>
+
+    <div class="selected-plan">
+
+        <h3>{{ plano.nome }}</h3>
+
+        <div class="calorie-box">
+            <span>{{ plano.calorias }}</span>
+            <small>kcal/dia</small>
+        </div>
+
+        <div class="macro-grid">
+
+            <div class="macro-box">
+                <strong>{{ plano.proteina }}g</strong>
+                <span>Proteína</span>
+            </div>
+
+            <div class="macro-box">
+                <strong>{{ plano.carboidratos }}g</strong>
+                <span>Carbo</span>
+            </div>
+
+            <div class="macro-box">
+                <strong>{{ plano.gordura }}g</strong>
+                <span>Gordura</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="coach-box">
+
+        <h3>Análise do Vitracka AI</h3>
+
+        <p>{{ texto_ia }}</p>
+
+    </div>
+
+    <a href="/chat">
+        <button>Perguntar ao Vix AI</button>
+    </a>
+
+    <a href="/refeicoes">
+        <button>Ver sugestões de refeições</button>
+    </a>
+
+</div>
+
+</body>
+</html>

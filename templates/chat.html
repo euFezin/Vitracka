@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vix — Coach Nutricional</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/paginas/chat.css') }}">
+</head>
+<body class="chat-page">
+ 
+<div class="chat-wrapper">
+ 
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo" class="logo-icon">
+            <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-name">
+            <span class="vix-badge">Vix AI</span>
+        </div>
+ 
+        <form action="/limpar-chat" method="POST">
+            <button type="submit" class="btn-limpar">Nova conversa</button>
+        </form>
+    </div>
+ 
+    <div class="chat-messages" id="chat-messages">
+ 
+        {% if not historico %}
+        <div class="chat-empty">
+            <div class="chat-empty-icon">🥗</div>
+            <p>Pergunte qualquer coisa sobre nutrição,<br>macros ou estratégia alimentar.</p>
+        </div>
+        {% endif %}
+ 
+        {% for msg in historico %}
+ 
+            {% if msg.role == 'user' %}
+            <div class="message-row user">
+                <div class="avatar user-av">Eu</div>
+                <div class="bubble user">{{ msg.content }}</div>
+            </div>
+            {% else %}
+            <div class="message-row">
+                <div class="avatar vix">✦</div>
+                <div class="bubble vix">{{ msg.content }}</div>
+            </div>
+            {% endif %}
+ 
+        {% endfor %}
+ 
+    </div>
+ 
+    <div class="chat-input-area">
+        <form method="POST" id="chat-form">
+            <div class="input-glow-wrapper">
+                <div class="input-inner">
+                    <textarea
+                        name="pergunta"
+                        id="pergunta"
+                        placeholder="Pergunte sobre dieta, macros, bulking…"
+                        rows="1"
+                        required
+                    ></textarea>
+                    <button type="submit" class="btn-send">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <p class="input-hint">Vix responde apenas dúvidas sobre nutrição e dieta.</p>
+        </form>
+    </div>
+ 
+</div>
+ 
+<script>
+    const messages = document.getElementById('chat-messages');
+    messages.scrollTop = messages.scrollHeight;
+ 
+    const textarea = document.getElementById('pergunta');
+    textarea.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 140) + 'px';
+    });
+ 
+    textarea.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            document.getElementById('chat-form').submit();
+        }
+    });
+</script>
+ 
+</body>
+</html>

@@ -1,0 +1,44 @@
+import requests
+
+REFEICOES = ['café da manhã', 'almoço', 'lanche da tarde', 'jantar']
+
+SYSTEM_PROMPT = """Você é Vix, nutricionista do app Vitracka, especialista em hipertrofia e performance.
+ 
+Sua tarefa é sugerir alimentos para UMA refeição específica, respeitando os macros do plano do usuário.
+ 
+Responda APENAS com uma lista simples de alimentos com quantidade, no formato:
+- [quantidade] [alimento] ([calorias aproximadas] kcal)
+ 
+Máximo de 5 itens. Sem introdução, sem explicação, sem texto extra. Apenas a lista.
+"""
+
+def gerar_refeicao(refeicao, plano):
+    prompt = f"""
+Plano do usuário:
+- Calorias totais: {plano['calorias']} kcal/dia
+- Proteína: {plano['proteina']}g
+- Carboidratos: {plano['carboidratos']}g
+- Gordura: {plano['gordura']}g
+ 
+Sugira alimentos para o {refeicao} desse usuário.
+Distribua aproximadamente 25% das calorias totais nessa refeição.
+"""
+ 
+    response = requests.post(
+        "http://localhost:1234/v1/chat/completions",
+        json={
+            "model": "gemma-3-1b-it",
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.6,
+            "max_tokens": 200
+        }
+    )
+ 
+    return response.json()["choices"][0]["message"]["content"]
+ 
+ 
+def gerar_todas_refeicoes(plano):
+    return {r: gerar_refeicao(r, plano) for r in REFEICOES}

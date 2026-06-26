@@ -1,0 +1,28 @@
+/* Dados */
+.form-card {
+    background-color: #1E293B;
+    padding: 24px;
+    border-radius: 22px;
+    margin-bottom: 24px;
+}
+
+.gender-options {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.gender-card {
+    flex: 1;
+    background-color: #0F172A;
+    padding: 18px;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s ease;
+}
+
+.gender-card:hover {
+    border-color: #22C55E;
+}

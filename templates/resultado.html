@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/resultado.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
+                <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 90%;"></div>
+            </div>
+        </div>
+
+        <h2>Escolha sua estratégia</h2>
+        <p class="subtitle">Baseado no seu perfil, montamos algumas opções para você evoluir.</p>
+
+        <div class="plans-grid">
+            {% for cenario in cenarios %}
+            <div class="plan-card">
+
+                <div class="plan-glow"></div>
+
+                <div class="plan-content">
+                    <div class="plan-header">
+                        <span class="plan-index">0{{ loop.index }}</span>
+                        <h3>{{ cenario.nome }}</h3>
+                        <p>{{ cenario.descricao }}</p>
+                    </div>
+
+                    <div class="calorie-box">
+                        <span class="calorie-number">{{ cenario.calorias }}</span>
+                        <small>kcal / dia</small>
+                    </div>
+
+                    <div class="macro-list">
+                        <div class="macro-item">
+                            <div class="macro-info">
+                                <span class="macro-name">Proteína</span>
+                                <span class="macro-value">{{ cenario.proteina }}g</span>
+                            </div>
+                            <div class="macro-bar-track">
+                                <div class="macro-bar-fill macro-prot" style="width: {{ (cenario.proteina * 4 / cenario.calorias * 100) | round | int }}%;"></div>
+                            </div>
+                        </div>
+                        <div class="macro-item">
+                            <div class="macro-info">
+                                <span class="macro-name">Carboidrato</span>
+                                <span class="macro-value">{{ cenario.carboidratos }}g</span>
+                            </div>
+                            <div class="macro-bar-track">
+                                <div class="macro-bar-fill macro-carb" style="width: {{ (cenario.carboidratos * 4 / cenario.calorias * 100) | round | int }}%;"></div>
+                            </div>
+                        </div>
+                        <div class="macro-item">
+                            <div class="macro-info">
+                                <span class="macro-name">Gordura</span>
+                                <span class="macro-value">{{ cenario.gordura }}g</span>
+                            </div>
+                            <div class="macro-bar-track">
+                                <div class="macro-bar-fill macro-gord" style="width: {{ (cenario.gordura * 9 / cenario.calorias * 100) | round | int }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="/selecionar-plano" method="POST">
+                        <input type="hidden" name="nome" value="{{ cenario.nome }}">
+                        <input type="hidden" name="calorias" value="{{ cenario.calorias }}">
+                        <input type="hidden" name="proteina" value="{{ cenario.proteina }}">
+                        <input type="hidden" name="carboidratos" value="{{ cenario.carboidratos }}">
+                        <input type="hidden" name="gordura" value="{{ cenario.gordura }}">
+                        <button type="submit" class="btn-selecionar">Selecionar plano</button>
+                    </form>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <input type="checkbox" id="toggle-comparador" class="comparador-toggle-input">
+
+        <label for="toggle-comparador" class="btn-comparar">
+            <span class="btn-comparar-abrir">📊 Comparar planos</span>
+            <span class="btn-comparar-fechar">✕ Fechar comparativo</span>
+        </label>
+
+        <div class="comparador-section">
+            <div class="comparador-inner">
+                <h3 class="comparador-titulo">Comparativo visual</h3>
+                <p class="comparador-subtitulo">Selecione uma métrica para comparar os planos.</p>
+
+                <input type="radio" name="metrica" id="tab-calorias" class="tab-input" checked>
+                <input type="radio" name="metrica" id="tab-proteina" class="tab-input">
+                <input type="radio" name="metrica" id="tab-carboidratos" class="tab-input">
+                <input type="radio" name="metrica" id="tab-gordura" class="tab-input">
+
+                <div class="chart-tabs">
+                    <label for="tab-calorias" class="chart-tab">Calorias</label>
+                    <label for="tab-proteina" class="chart-tab">Proteína</label>
+                    <label for="tab-carboidratos" class="chart-tab">Carboidratos</label>
+                    <label for="tab-gordura" class="chart-tab">Gordura</label>
+                </div>
+
+                {% set max_cal = cenarios | map(attribute='calorias') | max %}
+                {% set max_prot = cenarios | map(attribute='proteina') | max %}
+                {% set max_carb = cenarios | map(attribute='carboidratos') | max %}
+                {% set max_gord = cenarios | map(attribute='gordura') | max %}
+
+                <div class="chart-panel" id="panel-calorias">
+                    <div class="chart-bars">
+                        {% for c in cenarios %}
+                        <div class="bar-col">
+                            <span class="bar-valor">{{ c.calorias }}<small>kcal</small></span>
+                            <div class="bar-track">
+                                <div class="bar-fill bar-color-{{ loop.index }}" style="height: {{ (c.calorias / max_cal * 100) | round | int }}%;"></div>
+                            </div>
+                            <span class="bar-label">{{ c.nome }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="chart-panel" id="panel-proteina">
+                    <div class="chart-bars">
+                        {% for c in cenarios %}
+                        <div class="bar-col">
+                            <span class="bar-valor">{{ c.proteina }}<small>g</small></span>
+                            <div class="bar-track">
+                                <div class="bar-fill bar-color-{{ loop.index }}" style="height: {{ (c.proteina / max_prot * 100) | round | int }}%;"></div>
+                            </div>
+                            <span class="bar-label">{{ c.nome }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="chart-panel" id="panel-carboidratos">
+                    <div class="chart-bars">
+                        {% for c in cenarios %}
+                        <div class="bar-col">
+                            <span class="bar-valor">{{ c.carboidratos }}<small>g</small></span>
+                            <div class="bar-track">
+                                <div class="bar-fill bar-color-{{ loop.index }}" style="height: {{ (c.carboidratos / max_carb * 100) | round | int }}%;"></div>
+                            </div>
+                            <span class="bar-label">{{ c.nome }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="chart-panel" id="panel-gordura">
+                    <div class="chart-bars">
+                        {% for c in cenarios %}
+                        <div class="bar-col">
+                            <span class="bar-valor">{{ c.gordura }}<small>g</small></span>
+                            <div class="bar-track">
+                                <div class="bar-fill bar-color-{{ loop.index }}" style="height: {{ (c.gordura / max_gord * 100) | round | int }}%;"></div>
+                            </div>
+                            <span class="bar-label">{{ c.nome }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Objetivo</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/paginas/objetivos.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
+
+                <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
+            </div>
+
+<div class="progress-bar">
+            <div class="progress-fill" style="width: 25%;"></div>
+        </div>
+
+    </div>
+
+    <h2>Qual seu objetivo?</h2>
+
+    <p class="subtitle">
+        Escolha a estratégia que melhor representa sua meta atual.
+    </p>
+
+    <form action="/salvar-objetivo" method="POST">
+
+        <div class="goal-grid">
+
+            <label class="goal-card">
+                <input type="radio" name="objetivo" value="bulking" required>
+                <h3>Ganhar massa</h3>
+                <p>Construa músculos com um superávit inteligente.</p>
+            </label>
+
+            <label class="goal-card">
+                <input type="radio" name="objetivo" value="cutting" required>
+                <h3>Perder gordura</h3>
+                <p>Reduza gordura mantendo o máximo de massa magra.</p>
+            </label>
+
+            <label class="goal-card">
+                <input type="radio" name="objetivo" value="manter" required>
+                <h3>Manter peso</h3>
+                <p>Mantenha equilíbrio e estabilidade corporal.</p>
+            </label>
+
+        </div>
+
+        <button type="submit">Continuar</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

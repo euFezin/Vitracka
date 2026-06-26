@@ -1,0 +1,362 @@
+/* ── Grid de planos ── */
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+/* ── Card com glow ── */
+.plan-card {
+    position: relative;
+    border-radius: 24px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.plan-card:hover {
+    transform: translateY(-6px) scale(1.02);
+}
+
+/* Glow atrás do card — igual ao chat */
+.plan-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 26px;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        #22C55E 0deg,
+        #16A34A 90deg,
+        #0F172A 180deg,
+        #16A34A 270deg,
+        #22C55E 360deg
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+    filter: blur(8px);
+}
+
+.plan-card:hover .plan-glow {
+    opacity: 0.5;
+}
+
+.plan-content {
+    position: relative;
+    z-index: 1;
+    background: #1E293B;
+    border-radius: 24px;
+    border: 1px solid #334155;
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.plan-card:hover .plan-content {
+    border-color: rgba(34, 197, 94, 0.4);
+}
+
+/* Cabeçalho do card */
+.plan-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.plan-index {
+    font-size: 11px;
+    font-weight: 700;
+    color: #22C55E;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.plan-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #F1F5F9;
+    margin: 0;
+}
+
+.plan-header p {
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Calorias */
+.calorie-box {
+    background: #0F172A;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #1E293B;
+}
+
+.calorie-number {
+    display: block;
+    font-size: 40px;
+    font-weight: 800;
+    color: #F1F5F9;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.calorie-box small {
+    font-size: 12px;
+    color: #64748B;
+    letter-spacing: 0.05em;
+}
+
+/* Macros com barras de proporção */
+.macro-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.macro-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.macro-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.macro-name {
+    font-size: 12px;
+    color: #94A3B8;
+    font-weight: 500;
+}
+
+.macro-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #F1F5F9;
+}
+
+.macro-bar-track {
+    width: 100%;
+    height: 6px;
+    background: #0F172A;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.macro-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+
+.macro-prot { background: #22C55E; }
+.macro-carb { background: #06B6D4; }
+.macro-gord { background: #F59E0B; }
+
+/* Botão do card */
+.btn-selecionar {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid #334155;
+    color: #94A3B8;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-top: auto;
+}
+
+.btn-selecionar:hover {
+    background: #22C55E;
+    border-color: #22C55E;
+    color: #0F172A;
+    opacity: 1;
+}
+
+/* ── Comparador embaixo ── */
+.comparador-toggle-input {
+    display: none;
+}
+
+.btn-comparar {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid #334155;
+    color: #64748B;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.btn-comparar:hover {
+    border-color: #22C55E;
+    color: #22C55E;
+    opacity: 1;
+}
+
+.btn-comparar-fechar { display: none; }
+.btn-comparar-abrir  { display: inline; }
+
+.comparador-toggle-input:checked ~ .btn-comparar .btn-comparar-abrir  { display: none; }
+.comparador-toggle-input:checked ~ .btn-comparar .btn-comparar-fechar { display: inline; }
+.comparador-toggle-input:checked ~ .btn-comparar {
+    border-color: #22C55E;
+    color: #22C55E;
+}
+
+.comparador-section {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease, opacity 0.3s ease;
+    opacity: 0;
+    margin-bottom: 0;
+}
+
+.comparador-toggle-input:checked ~ .comparador-section {
+    max-height: 700px;
+    opacity: 1;
+    margin-bottom: 24px;
+}
+
+.comparador-inner {
+    background: #1E293B;
+    border-radius: 24px;
+    padding: 24px;
+}
+
+.comparador-titulo {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.comparador-subtitulo {
+    color: #64748B;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+/* Abas */
+.tab-input { display: none; }
+
+.chart-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.chart-tab {
+    display: inline-block;
+    width: auto;
+    padding: 6px 16px;
+    background: #0F172A;
+    border: 1px solid #334155;
+    color: #64748B;
+    font-size: 13px;
+    font-weight: normal;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 0;
+}
+
+.chart-tab:hover {
+    border-color: #22C55E;
+    color: #22C55E;
+    opacity: 1;
+}
+
+.chart-panel { display: none; }
+
+#tab-calorias:checked     ~ #panel-calorias     { display: block; }
+#tab-proteina:checked     ~ #panel-proteina     { display: block; }
+#tab-carboidratos:checked ~ #panel-carboidratos { display: block; }
+#tab-gordura:checked      ~ #panel-gordura      { display: block; }
+
+#tab-calorias:checked     ~ .chart-tabs label[for="tab-calorias"],
+#tab-proteina:checked     ~ .chart-tabs label[for="tab-proteina"],
+#tab-carboidratos:checked ~ .chart-tabs label[for="tab-carboidratos"],
+#tab-gordura:checked      ~ .chart-tabs label[for="tab-gordura"] {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: #22C55E;
+    color: #22C55E;
+}
+
+/* Barras verticais do comparador */
+.chart-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 32px;
+    height: 220px;
+}
+
+.bar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+    max-width: 140px;
+    height: 100%;
+}
+
+.bar-valor {
+    font-size: 13px;
+    font-weight: 700;
+    color: #F1F5F9;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.bar-valor small {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: #64748B;
+}
+
+.bar-track {
+    width: 100%;
+    height: 160px;
+    background: #0F172A;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.bar-fill {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+}
+
+.bar-color-1 { background: #22C55E; }
+.bar-color-2 { background: #10B981; }
+.bar-color-3 { background: #06B6D4; }
+
+.bar-label {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #64748B;
+    text-align: center;
+    line-height: 1.3;
+}

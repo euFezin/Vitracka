@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitracka — Seu coach nutricional com IA</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/index.css') }}">
+</head>
+<body class="landing-page">
+
+    <section class="hero">
+
+        <div class="hero-glow-top"></div>
+
+        <div class="hero-inner">
+
+            <div class="logo hero-logo">
+                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
+                <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
+            </div>
+
+            <div class="hero-badge">✦ Powered by IA local</div>
+
+            <h1 class="hero-title">
+                Seu coach<br>
+                <span class="hero-title-highlight">nutricional com IA</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Calcule seus macros, escolha seu plano e receba sugestões de refeições
+                personalizadas — tudo em menos de 2 minutos.
+            </p>
+
+            <a href="/objetivo" class="btn-hero">
+                Começar agora
+                <span class="btn-hero-arrow">→</span>
+            </a>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <strong>TMB + TDEE</strong>
+                    <span>Cálculo preciso</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <strong>3 planos</strong>
+                    <span>Personalizados</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <strong>Vix AI</strong>
+                    <span>Coach inteligente</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hero-glow-bottom"></div>
+    </section>
+
+    <section class="features">
+
+        <div class="features-inner">
+
+            <p class="features-label">O que o Vitracka faz por você</p>
+            <h2 class="features-title">Tudo que você precisa para evoluir</h2>
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Cálculo inteligente</h3>
+                    <p>Taxa metabólica basal e TDEE calculados com base no seu perfil real — peso, altura, idade e nível de atividade.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Planos por objetivo</h3>
+                    <p>Bulking, cutting ou manutenção. Cada plano vem com macros detalhados e uma estratégia clara para o seu objetivo.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🥗</div>
+                    <h3>Refeições sugeridas</h3>
+                    <p>A IA distribui suas calorias em 4 refeições do dia com alimentos reais, respeitando seus macros ao detalhe.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Vix AI — seu coach</h3>
+                    <p>Tire dúvidas sobre dieta, substituições e estratégias com a Vix, uma IA especializada em nutrição esportiva.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CTA final -->
+    <section class="cta-section">
+        <div class="cta-glow"></div>
+        <div class="cta-inner">
+            <h2>Pronto para montar sua estratégia?</h2>
+            <p>Leva menos de 2 minutos. Sem cadastro, sem complicação.</p>
+            <a href="/objetivo" class="btn-hero">
+                Começar agora
+                <span class="btn-hero-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+</body>
+</html>
