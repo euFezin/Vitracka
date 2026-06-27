@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Check-in - Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/plataforma.css') }}">
+</head>
+<body>
+
+    <div class="container auth-container">
+
+        <div class="topbar">
+            <a href="{{ url_for('dashboard') }}" class="text-link">Voltar</a>
+        </div>
+
+        <h2>Novo check-in</h2>
+        <p class="subtitle">Registre dados simples para acompanhar sua evolucao.</p>
+
+        <form method="POST" class="platform-card">
+            <label>Peso atual (kg)</label>
+            <input type="number" name="peso" step="0.1" required>
+
+            <label>Cintura (cm)</label>
+            <input type="number" name="cintura" step="0.1">
+
+            <label>Observacoes</label>
+            <textarea name="observacoes" rows="4" placeholder="Como foi a semana? Treinos, fome, energia..."></textarea>
+
+            <button type="submit">Salvar check-in</button>
+        </form>
+
+    </div>
+
+</body>
+</html>

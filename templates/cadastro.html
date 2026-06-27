@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro - Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/plataforma.css') }}">
+</head>
+<body>
+
+    <div class="container auth-container">
+
+        <div class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
+                <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
+            </div>
+        </div>
+
+        <h2>Criar conta</h2>
+        <p class="subtitle">Salve seu plano, refeicoes e evolucao em uma jornada continua.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="platform-card">
+            <label>Nome</label>
+            <input type="text" name="nome" required>
+
+            <label>E-mail</label>
+            <input type="email" name="email" required>
+
+            <label>Senha</label>
+            <input type="password" name="senha" minlength="6" required>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <p class="auth-link">Ja tem conta? <a href="{{ url_for('login') }}">Entrar</a></p>
+
+    </div>
+
+</body>
+</html>

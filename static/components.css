@@ -133,4 +133,141 @@ label {
     color: #94A3B8;
     font-size: 14px;
 }
- 
+
+/* Header */
+.site-header {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+
+  padding: 12px 24px;
+  border-radius: 999px;
+
+  background: rgba(15, 23, 42, 0.25);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(34, 197, 94, 0.25);
+
+  pointer-events: auto;
+
+  min-width: 320px;
+  max-width: 900px;
+  width: calc(100% - 40px);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo img {
+  height: 28px;
+}
+
+.header-logo span {
+  color: #22C55E;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header-nav a {
+  color: #22C55E;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.25s;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.header-nav a:not(.ai-btn):hover {
+  color: #0F172A;
+  background: #22C55E;
+}
+
+.ai-btn {
+  color: #0F172A !important;
+  background: #22C55E;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.ai-btn:hover {
+  background: transparent;
+  color: #22C55E !important;
+  border: 1px solid #22C55E;
+}
+
+/* Footer */
+.footer {
+  background: #0F172A;
+  color: #E2E8F0;
+  padding: 40px 20px;
+  border-top: 2px solid #22C55E;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-left h2 {
+  color: #22C55E;
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+.footer-left p {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  color: #94A3B8;
+}
+
+.footer-center {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-center a {
+  color: #E2E8F0;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.footer-center a:hover {
+  color: #22C55E;
+  transform: translateY(-2px);
+}
+
+.footer-right {
+  font-size: 13px;
+  color: #94A3B8;
+}

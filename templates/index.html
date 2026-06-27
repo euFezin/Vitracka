@@ -12,6 +12,27 @@
 </head>
 <body class="landing-page">
 
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="header-logo">
+                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Vitracka">
+                <span>Vitracka</span>
+            </div>
+
+        <nav class="header-nav">
+            <a href="#features">Funcionalidades</a>
+            <a href="#cta">Começar</a>
+            <a href="#">Suporte</a>
+
+            {% if current_user.is_authenticated %}
+                <a class="ai-btn" href="{{ url_for('chat') }}">Vix AI</a>
+            {% else %}
+                <a class="ai-btn" href="{{ url_for('login') }}">Vix AI</a>
+            {% endif %}
+        </nav>
+        </div>
+    </header>
+
     <section class="hero">
 
         <div class="hero-glow-top"></div>
@@ -35,7 +56,7 @@
                 personalizadas — tudo em menos de 2 minutos.
             </p>
 
-            <a href="/objetivo" class="btn-hero">
+            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('cadastro') }}" class="btn-hero">
                 Começar agora
                 <span class="btn-hero-arrow">→</span>
             </a>
@@ -106,13 +127,32 @@
         <div class="cta-glow"></div>
         <div class="cta-inner">
             <h2>Pronto para montar sua estratégia?</h2>
-            <p>Leva menos de 2 minutos. Sem cadastro, sem complicação.</p>
-            <a href="/objetivo" class="btn-hero">
+            <p>Leva menos de 2 minutos e sua jornada fica salva.</p>
+            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('cadastro') }}" class="btn-hero">
                 Começar agora
                 <span class="btn-hero-arrow">→</span>
             </a>
         </div>
     </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+        <div class="footer-left">
+            <h2>Vitracka</h2>
+            <p>Seu progresso, sem enrolação.</p>
+        </div>
+
+        <div class="footer-center">
+            <a href="#">Sobre</a>
+            <a href="#">Privacidade</a>
+            <a href="#">Suporte</a>
+        </div>
+
+        <div class="footer-right">
+            <span>Feito com foco em performance 💪</span>
+        </div>
+        </div>
+    </footer>
 
 </body>
 </html>
