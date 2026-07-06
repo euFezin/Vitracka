@@ -1,4 +1,12 @@
 /* Explicacao */
+
+.container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 28px 40px;
+}
+
 .selected-plan {
     background-color: #1E293B;
     padding: 24px;
@@ -22,3 +30,26 @@
     color: #CBD5E1;
     line-height: 1.7;
 }
+
+.options-button {
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    background: linear-gradient(
+        #22C55E,
+    );
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    margin-top: 18px;
+    transition: all 0.25s ease;
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.20);
+}
+
+.options-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 22px rgba(34, 197, 94, 0.35);
+}
+

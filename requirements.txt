@@ -4,3 +4,6 @@ pymysql
 flask-login
 flask-migrate
 werkzeug
+
+huggingface_hub
+python-dotenv

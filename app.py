@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import date
 
 from flask import Flask, flash, render_template, request, redirect, url_for, session
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
@@ -23,6 +24,10 @@ from core.refeicoes import gerar_refeicao, gerar_todas_refeicoes
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "musculacao_Vitracka")
+
+@app.template_filter("from_json")
+def from_json_filter(value):
+    return json.loads(value)
 
 database_url = os.getenv("DATABASE_URL")
 if not database_url:
@@ -164,29 +169,148 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
+def calcular_streak(user_id):
+    dates = []
+
+    meals = MealSuggestion.query.filter_by(user_id=user_id).all()
+    check_ins = ProgressCheckIn.query.filter_by(user_id=user_id).all()
+
+    for meal in meals:
+        dates.append(meal.created_at.date())
+
+    for check in check_ins:
+        dates.append(check.created_at.date())
+
+    unique_dates = sorted(set(dates), reverse=True)
+
+    if not unique_dates:
+        return 0
+
+    if unique_dates[0] != date.today():
+        return 0
+
+    streak = 1
+
+    for i in range(len(unique_dates) - 1):
+        diff = (unique_dates[i] - unique_dates[i + 1]).days
+
+        if diff == 1:
+            streak += 1
+        else:
+            break
+
+    return streak
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    profile = (
+        PhysicalProfile.query.filter_by(user_id=current_user.id)
+        .order_by(PhysicalProfile.created_at.asc())
+        .first()
+    )
+
+    goal = (
+        Goal.query.filter_by(user_id=current_user.id, is_active=True)
+        .order_by(Goal.created_at.desc())
+        .first()
+    )
+
+    plan = (
+        NutritionPlan.query.filter_by(user_id=current_user.id)
+        .order_by(NutritionPlan.created_at.desc())
+        .first()
+    )
+
     check_ins = (
         ProgressCheckIn.query.filter_by(user_id=current_user.id)
         .order_by(ProgressCheckIn.created_at.desc())
-        .limit(8)
+        .limit(5)
         .all()
     )
 
-    return render_template(
-        "dashboard.html",
-        profile=get_current_profile(),
-        goal=get_current_goal(),
-        plan=get_current_plan(),
-        check_ins=check_ins,
+    latest_meal = (
+        MealSuggestion.query.filter_by(user_id=current_user.id)
+        .order_by(MealSuggestion.created_at.desc())
+        .first()
     )
 
+    latest_check_in = (
+        ProgressCheckIn.query.filter_by(user_id=current_user.id)
+        .order_by(ProgressCheckIn.created_at.desc())
+        .first()
+    )
 
-@app.route("/objetivo")
+    workout = None
+
+    current_weight = None
+    if latest_check_in:
+        current_weight = latest_check_in.weight
+    elif profile:
+        current_weight = profile.weight
+
+    progress = 0
+    remaining_weight = 0
+
+    if goal and goal.target_weight and profile and current_weight:
+        initial_weight = profile.weight
+        target_weight = goal.target_weight
+
+        if initial_weight != target_weight:
+
+            if goal.objective == "cutting":
+                progress = (
+                    (initial_weight - current_weight) /
+                    (initial_weight - target_weight)
+                ) * 100
+
+                remaining_weight = current_weight - target_weight
+
+            elif goal.objective == "bulking":
+                progress = (
+                    (current_weight - initial_weight) /
+                    (target_weight - initial_weight)
+                ) * 100
+
+                remaining_weight = target_weight - current_weight
+
+            progress = max(0, min(progress, 100))
+
+    streak = calcular_streak(current_user.id)
+
+    return render_template(
+        "dashboard.html",
+        profile=profile,
+        goal=goal,
+        plan=plan,
+        check_ins=check_ins,
+        latest_meal=latest_meal,
+        workout=workout,
+        current_weight=current_weight,
+        progress=progress,
+        remaining_weight=remaining_weight,
+        streak=streak
+    )
+
+@app.route("/objetivo", methods=["GET", "POST"])
 @login_required
 def objetivo():
+    if request.method == "POST":
+        objective = request.form.get("objective")
+        target_weight = request.form.get("target_weight")
+
+        new_goal = Goal(
+            user_id=current_user.id,
+            objective=objective,
+            target_weight=float(target_weight),
+            is_active=True
+        )
+
+        db.session.add(new_goal)
+        db.session.commit()
+
+        return redirect(url_for("dashboard"))
+
     return render_template("objetivo.html")
 
 
@@ -194,14 +318,28 @@ def objetivo():
 @login_required
 def salvar_objetivo():
     objective = request.form["objetivo"]
+    target_weight = request.form["target_weight"]
+
     session["objetivo"] = objective
 
-    Goal.query.filter_by(user_id=current_user.id, is_active=True).update({"is_active": False})
-    db.session.add(Goal(user_id=current_user.id, objective=objective))
+    Goal.query.filter_by(
+        user_id=current_user.id,
+        is_active=True
+    ).update({
+        "is_active": False
+    })
+
+    db.session.add(
+        Goal(
+            user_id=current_user.id,
+            objective=objective,
+            target_weight=float(target_weight)
+        )
+    )
+
     db.session.commit()
 
     return redirect(url_for("dados"))
-
 
 @app.route("/dados", methods=["GET", "POST"])
 @login_required

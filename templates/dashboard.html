@@ -17,46 +17,115 @@
                 <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
                 <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
             </div>
-            <a href="{{ url_for('logout') }}" class="text-link">Sair</a>
+
+            <div class="topbar-actions">
+                <a href="{{ url_for('chat') }}" class="button-link">✦ Vix AI</a>
+                <a href="{{ url_for('objetivo') }}" class="button-link">Objetivo</a>
+                <a href="{{ url_for('dados') }}" class="button-link">Perfil</a>
+                <a href="{{ url_for('refeicoes') }}" class="button-link">Refeições</a>
+                <a href="{{ url_for('check_in') }}" class="button-link">Check-in</a>
+                <a href="{{ url_for('logout') }}" class="button-link">Sair</a>
+            </div>
         </div>
 
-        <h2>Minha jornada</h2>
-        <p class="subtitle">Bem-vindo, {{ current_user.name }}. Seus dados agora ficam salvos.</p>
+        <section class="hero-section">
+            <h2>Olá, {{ current_user.name }}</h2>
 
-        <div class="dashboard-grid">
+            <p class="subtitle">
+                Continue sua jornada. Você está mais perto do seu objetivo.
+            </p>
 
-            <section class="platform-card">
-                <h3>Objetivo atual</h3>
+            <div class="hero-badges">
                 {% if goal %}
-                    <p class="metric-main">{{ goal.objective }}</p>
-                    <p class="muted">Criado em {{ goal.created_at.strftime('%d/%m/%Y') }}</p>
-                {% else %}
-                    <p class="muted">Nenhum objetivo registrado.</p>
+                    <span class="badge">
+                        Plano atual: {{ goal.objective }}
+                    </span>
                 {% endif %}
-                <a href="{{ url_for('objetivo') }}" class="button-link">Definir objetivo</a>
+
+                <span class="badge">
+                    {{ streak }} dias de consistência
+                </span>
+            </div>
+        </section>
+
+        <div class="dashboard-layout">
+
+            <section class="platform-card progress-card">
+                <h3>Seu progresso</h3>
+
+                {% if current_weight %}
+                    <p class="metric-main">{{ current_weight }} kg</p>
+
+                    {% if goal and goal.target_weight %}
+                        <p class="muted">
+                            Meta: {{ goal.target_weight }} kg
+                        </p>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: {{ progress }}%;"></div>
+                        </div>
+
+                        <p class="muted">
+                            {{ remaining_weight | round(1) }} kg restantes
+                        </p>
+                    {% else %}
+                        <p class="muted">
+                            Defina seu peso alvo para acompanhar progresso.
+                        </p>
+                    {% endif %}
+                {% else %}
+                    <p class="muted">
+                        Nenhum dado de peso registrado.
+                    </p>
+                {% endif %}
+
+                <a href="{{ url_for('check_in') }}" class="small-button">
+                    Atualizar progresso
+                </a>
             </section>
 
-            <section class="platform-card">
-                <h3>Perfil fisico</h3>
-                {% if profile %}
-                    <p class="metric-main">{{ profile.weight }} kg</p>
-                    <p class="muted">{{ profile.height }} cm, {{ profile.age }} anos, {{ profile.activity_level or 'atividade pendente' }}</p>
+            <section class="platform-card workout-card">
+                <h3>Treino atual</h3>
+
+                {% if workout %}
+                    <p class="metric-main">Treino disponível</p>
+                    <p class="muted">
+                        Criado em {{ workout.created_at.strftime('%d/%m/%Y') }}
+                    </p>
                 {% else %}
-                    <p class="muted">Perfil ainda nao preenchido.</p>
+                    <p class="muted">
+                        Sistema de treinos em desenvolvimento.
+                    </p>
                 {% endif %}
-                <a href="{{ url_for('dados') }}" class="button-link">Atualizar perfil</a>
+
+                <button class="button-link" disabled>
+                    Em breve
+                </button>
             </section>
 
-            <section class="platform-card">
-                <h3>Plano escolhido</h3>
-                {% if plan %}
-                    <p class="metric-main">{{ plan.calories }} kcal</p>
-                    <p class="muted">{{ plan.protein }}g proteina, {{ plan.carbs }}g carbo, {{ plan.fat }}g gordura</p>
-                    <a href="{{ url_for('refeicoes') }}" class="button-link">Ver refeicoes</a>
+            <section class="platform-card meals-card">
+                <h3>Plano alimentar atual</h3>
+
+                {% if latest_meal %}
+                    {% set meals_data = latest_meal.meals_json | from_json %}
+
+                    <div class="history-list">
+                        {% for meal_name, meal_content in meals_data.items() %}
+                            <div class="history-item">
+                                <strong>{{ meal_name }}</strong>
+                                <p>{{ meal_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 {% else %}
-                    <p class="muted">Nenhum plano escolhido.</p>
-                    <a href="{{ url_for('objetivo') }}" class="button-link">Montar plano</a>
+                    <p class="muted">
+                        Nenhum plano alimentar gerado ainda.
+                    </p>
                 {% endif %}
+
+                <a href="{{ url_for('refeicoes') }}" class="small-button">
+                    Gerar novo plano
+                </a>
             </section>
 
         </div>
@@ -64,26 +133,42 @@
         <section class="platform-card section-block">
             <div class="section-heading">
                 <div>
-                    <h3>Check-ins de progresso</h3>
-                    <p class="muted">Registre peso, medidas e observacoes ao longo do tempo.</p>
+                    <h3>Histórico recente</h3>
+                    <p class="muted">
+                        Seus últimos check-ins e evolução.
+                    </p>
                 </div>
-                <a href="{{ url_for('check_in') }}" class="small-button">Novo check-in</a>
+
+                <a href="{{ url_for('check_in') }}" class="small-button">
+                    Novo check-in
+                </a>
             </div>
 
             {% if check_ins %}
                 <div class="history-list">
                     {% for item in check_ins %}
-                    <div class="history-item">
-                        <strong>{{ item.created_at.strftime('%d/%m/%Y') }}</strong>
-                        <span>{{ item.weight }} kg{% if item.waist %} - cintura {{ item.waist }} cm{% endif %}</span>
-                        {% if item.notes %}
-                            <p>{{ item.notes }}</p>
-                        {% endif %}
-                    </div>
+                        <div class="history-item">
+                            <strong>
+                                {{ item.created_at.strftime('%d/%m/%Y') }}
+                            </strong>
+
+                            <span>
+                                {{ item.weight }} kg
+                                {% if item.waist %}
+                                    • cintura {{ item.waist }} cm
+                                {% endif %}
+                            </span>
+
+                            {% if item.notes %}
+                                <p>{{ item.notes }}</p>
+                            {% endif %}
+                        </div>
                     {% endfor %}
                 </div>
             {% else %}
-                <p class="muted">Ainda nao há check-ins registrados.</p>
+                <p class="muted">
+                    Ainda não há check-ins registrados.
+                </p>
             {% endif %}
         </section>
 

@@ -19,12 +19,11 @@
         </div>
     </div>
 
-    <!-- Nav -->
     <nav class="refeicoes-nav">
-        <a href="/explicacao" class="nav-link">📋 Meu plano</a>
-        <a href="/refeicoes" class="nav-link active">🍽 Refeições</a>
-        <a href="/chat" class="nav-link">💬 Vix AI</a>
         <a href="/dashboard" class="nav-link">Minha jornada</a>
+        <a href="/explicacao" class="nav-link">Meu plano</a>
+        <a href="/chat" class="nav-link">✦ Vix AI</a>
+        <a href="/refeicoes" class="nav-link active">Refeições</a>
     </nav>
 
     <h2>Suas refeições do dia</h2>
@@ -59,7 +58,7 @@
 
                 <form action="/regenerar-refeicao" method="POST">
                     <input type="hidden" name="refeicao" value="{{ nome }}">
-                    <button type="submit" class="btn-regenerar">🔄 Gerar outra sugestão</button>
+                    <button type="submit" class="btn-regenerar">Gerar outra sugestão</button>
                 </form>
 
             </div>

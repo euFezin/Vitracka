@@ -51,6 +51,7 @@ class Goal(db.Model):
     objective = db.Column(db.String(30), nullable=False)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    target_weight = db.Column(db.Float, nullable=True)
 
 
 class NutritionPlan(db.Model):
@@ -87,3 +88,15 @@ class ProgressCheckIn(db.Model):
     waist = db.Column(db.Float, nullable=True)
     notes = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    
+class WorkoutPlan(db.Model):
+    __tablename__ = "workout_plans"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, index=True)
+    goal_id = db.Column(db.Integer, db.ForeignKey("goals.id"), nullable=False)
+
+    workout_json = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    goal = db.relationship("Goal")
