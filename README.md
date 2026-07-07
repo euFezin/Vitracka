@@ -15,6 +15,9 @@ Atualmente em fase de MVP e recebendo melhorias contínuas.
 - [x] Persistência com banco de dados
 - [x] Histórico de progresso
 - [x] Login e autenticação
+- [x] Substituição de IA Local por Hugging Face
+- [x] Implementação de Política e Privacidade
+- [ ] Implementação de um Mascote para o aplicativo
 - [ ] Dashboard de métricas
 - [ ] Upload de fotos para análise corporal
 
@@ -25,7 +28,7 @@ O sistema já realiza:
 - recomendação calórica
 - distribuição de macronutrientes
 - geração de refeições baseada em metas
-- chat contextual com IA local
+- chat contextual com IA 
 - login e autenticação de usuário
 
 
@@ -35,8 +38,7 @@ Python
 Flask  
 HTML  
 CSS  
-LM Studio  
-Gemma 3  
+Hugging Face
 Jinja2
 MySQL
 Alembic

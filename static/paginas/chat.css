@@ -7,6 +7,7 @@ body.chat-page {
 }
  
 .chat-wrapper {
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -290,4 +291,96 @@ body.chat-page {
     font-size: 11px;
     color: #334155;
     margin-top: 10px;
+}
+
+.typing-bubble {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.typing-bubble span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #94A3B8;
+    animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-bubble span:nth-child(2) {
+    animation-delay: .2s;
+}
+
+.typing-bubble span:nth-child(3) {
+    animation-delay: .4s;
+}
+
+@keyframes typing {
+
+    0%, 80%, 100% {
+        transform: scale(.6);
+        opacity: .4;
+    }
+
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+.bubble.vix h1,
+.bubble.vix h2,
+.bubble.vix h3 {
+    margin: 0 0 12px;
+}
+
+.bubble.vix p {
+    margin: 0 0 10px;
+}
+
+.bubble.vix ul,
+.bubble.vix ol {
+    margin: 10px 0;
+    padding-left: 22px;
+}
+
+.bubble.vix code {
+    background: rgba(255,255,255,.08);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.bubble.vix pre {
+    overflow-x: auto;
+    padding: 12px;
+    border-radius: 10px;
+    background: #111827;
+}
+
+.chat-nav{
+    display:flex;
+    gap:12px;
+    padding:16px 28px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    background:#0F172A;
+}
+
+.nav-item{
+    text-decoration:none;
+    color:#94A3B8;
+    padding:10px 16px;
+    border-radius:10px;
+    transition:.2s;
+    font-weight:500;
+}
+
+.nav-item:hover{
+    background:#1E293B;
+    color:#fff;
+}
+
+.nav-item.active{
+    background:#2563EB;
+    color:#fff;
 }

@@ -1,5 +1,11 @@
-import requests
-
+import os
+ 
+from huggingface_hub import InferenceClient
+ 
+ 
+client = InferenceClient(
+    api_key=os.getenv("HF_TOKEN")
+)
 
 def gerar_explicacao(plano, objetivo, peso, atividade):
 
@@ -24,18 +30,17 @@ def gerar_explicacao(plano, objetivo, peso, atividade):
     - Responda em um único parágrafo
     """
 
-    response = requests.post(
-        "http://localhost:1234/v1/chat/completions",
-        json={
-            "model": "gemma-3-1b-it",
-            "messages": [
+    try:
+        resposta = client.chat.completions.create(
+            model=os.getenv("HF_MODEL"),
+            messages=[
                 {"role": "user", "content": prompt}
             ],
-            "temperature": 0.4,
-            "max_tokens": 120
-        }
-    )
-
-    resposta = response.json()
-
-    return resposta["choices"][0]["message"]["content"]
+            temperature=0.4,
+            max_tokens=120,
+        )
+ 
+        return resposta.choices[0].message.content
+ 
+    except Exception:
+        return "Não foi possível gerar a explicação do plano agora. Tente novamente em instantes."

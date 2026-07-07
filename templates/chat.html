@@ -10,20 +10,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='/paginas/chat.css') }}">
 </head>
 <body class="chat-page">
+    {% include 'components/navbar.html' %}
  
 <div class="chat-wrapper">
- 
-    <div class="chat-header">
-        <div class="chat-header-left">
-            <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo" class="logo-icon">
-            <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-name">
-            <span class="vix-badge">✦ Vix AI</span>
-        </div>
- 
-        <form action="/limpar-chat" method="POST">
-            <button type="submit" class="btn-limpar">Nova conversa</button>
-        </form>
-    </div>
+
  
     <div class="chat-messages" id="chat-messages">
  
@@ -63,7 +53,7 @@
                         rows="1"
                         required
                     ></textarea>
-                    <button type="submit" class="btn-send">
+                    <button type="submit" class="btn-send" id="btn-send">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
                         </svg>
@@ -75,23 +65,159 @@
     </div>
  
 </div>
- 
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
-    const messages = document.getElementById('chat-messages');
+const messages = document.getElementById("chat-messages");
+const form = document.getElementById("chat-form");
+const textarea = document.getElementById("pergunta");
+const btn = document.getElementById("btn-send");
+
+messages.scrollTop = messages.scrollHeight;
+
+// Auto resize
+textarea.addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.height = Math.min(this.scrollHeight, 140) + "px";
+});
+
+// Enter envia / Shift+Enter quebra linha
+textarea.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        form.requestSubmit();
+    }
+});
+
+function scrollBottom() {
     messages.scrollTop = messages.scrollHeight;
- 
-    const textarea = document.getElementById('pergunta');
-    textarea.addEventListener('input', function () {
-        this.style.height = 'auto';
-        this.style.height = Math.min(this.scrollHeight, 140) + 'px';
-    });
- 
-    textarea.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            document.getElementById('chat-form').submit();
-        }
-    });
+}
+
+function adicionarMensagem(texto, tipo) {
+
+    const row = document.createElement("div");
+    row.className = tipo === "user"
+        ? "message-row user"
+        : "message-row";
+
+    const avatar = document.createElement("div");
+    avatar.className = tipo === "user"
+        ? "avatar user-av"
+        : "avatar vix";
+
+    avatar.textContent = tipo === "user"
+        ? "Eu"
+        : "✦";
+
+    const bubble = document.createElement("div");
+    bubble.className = tipo === "user"
+        ? "bubble user"
+        : "bubble vix";
+
+    if (tipo === "assistant") {
+        bubble.innerHTML = marked.parse(texto);
+    } else {
+        bubble.textContent = texto;
+    }
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+
+    messages.appendChild(row);
+
+    scrollBottom();
+
+    return bubble;
+}
+
+function mostrarDigitando() {
+
+    const row = document.createElement("div");
+    row.className = "message-row";
+    row.id = "typing";
+
+    row.innerHTML = `
+        <div class="avatar vix">✦</div>
+
+        <div class="bubble vix typing-bubble">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+
+    messages.appendChild(row);
+
+    scrollBottom();
+}
+
+function removerDigitando() {
+
+    const typing = document.getElementById("typing");
+
+    if (typing)
+        typing.remove();
+}
+
+form.addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    const pergunta = textarea.value.trim();
+
+    if (!pergunta)
+        return;
+
+    adicionarMensagem(pergunta, "user");
+
+    textarea.value = "";
+    textarea.style.height = "auto";
+
+    btn.disabled = true;
+
+    mostrarDigitando();
+
+    try {
+
+        const response = await fetch("/api/chat", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                pergunta
+            })
+
+        });
+
+        const data = await response.json();
+
+        removerDigitando();
+
+        adicionarMensagem(data.answer, "assistant");
+
+    }
+
+    catch {
+
+        removerDigitando();
+
+        adicionarMensagem(
+            "Erro ao conversar com a Vix.",
+            "assistant"
+        );
+
+    }
+
+    btn.disabled = false;
+
+    textarea.focus();
+
+});
 </script>
  
 </body>

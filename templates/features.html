@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funcionalidades — Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/institucional.css') }}">
+</head>
+<body class="landing-page">
+
+    {% include 'components/navbar.html' %}
+
+    <section class="page-hero">
+        <div class="page-hero-glow"></div>
+        <div class="page-hero-inner">
+            <span class="page-hero-label">Tudo em um só lugar</span>
+            <h1>Funcionalidades</h1>
+            <p>
+                Do cálculo das suas calorias ao acompanhamento do seu progresso —
+                tudo que o Vitracka oferece pra você evoluir com consistência.
+            </p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-inner" style="max-width: 1000px;">
+
+            <div class="full-features-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Cálculo de TMB e TDEE</h3>
+                    <p>Sua Taxa Metabólica Basal e seu Gasto Energético Total calculados a partir do seu peso, altura, idade, sexo e nível de atividade.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Cenários por objetivo</h3>
+                    <p>Bulking, cutting ou manutenção — cada cenário chega com calorias e macros ajustados para o resultado que você quer.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🥗</div>
+                    <h3>Refeições sugeridas</h3>
+                    <p>Suas calorias distribuídas em refeições com alimentos reais, respeitando seus macros ao detalhe — e você pode regenerar qualquer refeição isoladamente.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Vix AI — seu coach nutricional</h3>
+                    <p>Tire dúvidas sobre dieta, substituições e estratégias com a Vix, uma IA focada exclusivamente em nutrição esportiva.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Check-in de progresso</h3>
+                    <p>Registre seu peso periodicamente e acompanhe sua evolução — sem precisar de planilha externa.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔥</div>
+                    <h3>Streak de consistência</h3>
+                    <p>O dashboard acompanha sua sequência de check-ins, reforçando o hábito de manter a dieta em dia.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Explicação personalizada do plano</h3>
+                    <p>Entenda o porquê das suas calorias e macros, com uma explicação gerada por IA sobre o seu cenário específico.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛠️</div>
+                    <h3>Perfil e metas ajustáveis</h3>
+                    <p>Mudou de objetivo? Atualize seu perfil e refaça o cálculo a qualquer momento, direto pelo dashboard.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-glow"></div>
+        <div class="cta-inner">
+            <h2>Pronto para montar sua estratégia?</h2>
+            <p>Leva menos de 2 minutos e sua jornada fica salva.</p>
+            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('cadastro') }}" class="btn-hero">
+                Começar agora
+                <span class="btn-hero-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h2>Vitracka</h2>
+                <p>Seu progresso, sem enrolação.</p>
+            </div>
+
+            <div class="footer-center">
+                <a href="{{ url_for('about') }}">Sobre</a>
+                <a href="{{ url_for('privacy') }}">Política de Privacidade</a>
+                <a href="{{ url_for('support') }}">Suporte</a>
+            </div>
+
+            <div class="footer-right">
+                <span>Feito com foco em performance</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

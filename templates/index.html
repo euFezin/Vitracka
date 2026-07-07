@@ -12,26 +12,7 @@
 </head>
 <body class="landing-page">
 
-    <header class="site-header">
-        <div class="header-inner">
-            <div class="header-logo">
-                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Vitracka">
-                <span>Vitracka</span>
-            </div>
-
-        <nav class="header-nav">
-            <a href="#features">Funcionalidades</a>
-            <a href="#cta">Começar</a>
-            <a href="#">Suporte</a>
-
-            {% if current_user.is_authenticated %}
-                <a class="ai-btn" href="{{ url_for('chat') }}">✦ Vix AI</a>
-            {% else %}
-                <a class="ai-btn" href="{{ url_for('login') }}">✦ Vix AI</a>
-            {% endif %}
-        </nav>
-        </div>
-    </header>
+    {% include 'components/navbar.html' %}
 
     <section class="hero">
 

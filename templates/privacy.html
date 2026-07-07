@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade — Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/institucional.css') }}">
+</head>
+<body class="landing-page">
+
+    {% include 'components/navbar.html' %}
+
+    <section class="page-hero">
+        <div class="page-hero-glow"></div>
+        <div class="page-hero-inner">
+            <span class="page-hero-label">Transparência</span>
+            <h1>Política de <span>Privacidade</span></h1>
+            <p>
+                Como o Vitracka coleta, usa e protege os seus dados — em
+                conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018).
+            </p>
+            <span class="page-updated">Última atualização: julho de 2026</span>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-inner">
+
+            <h2>1. Quem somos</h2>
+            <p>
+                O Vitracka é uma plataforma de acompanhamento nutricional que usa
+                inteligência artificial para calcular metas calóricas, sugerir planos
+                alimentares e responder dúvidas sobre dieta através do assistente
+                <strong>Vix AI</strong>. Para os fins desta política, o Vitracka atua
+                como controlador dos dados pessoais tratados na aplicação.
+            </p>
+
+            <h2>2. Quais dados coletamos</h2>
+            <ul>
+                <li><strong>Dados de conta:</strong> nome, e-mail e senha (armazenada com hash, nunca em texto puro).</li>
+                <li><strong>Perfil físico:</strong> peso, altura, idade, sexo e nível de atividade.</li>
+                <li><strong>Objetivos e planos:</strong> meta escolhida (bulking, cutting ou manutenção), plano calórico e distribuição de macros.</li>
+                <li><strong>Refeições:</strong> sugestões de refeições geradas e regeneradas dentro da plataforma.</li>
+                <li><strong>Check-ins de progresso:</strong> peso e anotações registradas ao longo do tempo.</li>
+                <li><strong>Conversas com a Vix AI:</strong> as mensagens trocadas no chat de nutrição.</li>
+            </ul>
+
+            <h2>3. Como usamos seus dados</h2>
+            <p>
+                Usamos essas informações exclusivamente para calcular suas metas
+                nutricionais, gerar planos e sugestões de refeição personalizadas,
+                acompanhar sua evolução no dashboard e permitir que a Vix AI responda
+                suas dúvidas com contexto sobre o seu plano.
+            </p>
+            <p>
+                A base legal para esse tratamento é a <strong>execução do contrato</strong>
+                (fornecer o serviço que você solicitou ao criar sua conta) e, quando
+                aplicável, o seu <strong>consentimento</strong>.
+            </p>
+
+            <h2>4. Compartilhamento com terceiros</h2>
+            <p>
+                Para gerar as respostas da Vix AI e as explicações personalizadas do
+                seu plano, enviamos o conteúdo necessário da conversa a provedores de
+                inferência de IA (como a API da Hugging Face). Nenhum dado é vendido
+                ou usado para fins publicitários. Não compartilhamos seus dados com
+                terceiros para qualquer outra finalidade sem uma base legal para isso.
+            </p>
+
+            <h2>5. Armazenamento e segurança</h2>
+            <p>
+                Seus dados ficam armazenados em banco de dados MySQL. Senhas passam
+                por hash antes de serem salvas e nunca são armazenadas em texto puro.
+                O acesso à sua conta é controlado por sessão autenticada, e chaves de
+                API e credenciais sensíveis ficam fora do controle de versão do
+                projeto, em variáveis de ambiente.
+            </p>
+
+            <h2>6. Cookies e sessão</h2>
+            <p>
+                Utilizamos apenas um cookie de sessão, necessário para manter você
+                autenticado enquanto navega na plataforma. O Vitracka não usa cookies
+                de rastreamento, publicidade ou analytics de terceiros.
+            </p>
+
+            <h2>7. Seus direitos (LGPD)</h2>
+            <p>Como titular dos dados, você tem direito a:</p>
+            <ul>
+                <li>Confirmar a existência de tratamento dos seus dados;</li>
+                <li>Acessar, corrigir ou atualizar seus dados;</li>
+                <li>Solicitar a exclusão da sua conta e dos dados associados;</li>
+                <li>Solicitar a portabilidade dos seus dados;</li>
+                <li>Revogar o consentimento dado, quando aplicável.</li>
+            </ul>
+            <p>Esses pedidos podem ser feitos pelo canal de contato ao final desta página.</p>
+
+            <h2>8. Retenção e exclusão</h2>
+            <p>
+                Seus dados são mantidos enquanto sua conta estiver ativa. Ao solicitar
+                o encerramento da conta, os dados pessoais são removidos ou
+                anonimizados, exceto quando houver obrigação legal de retenção.
+            </p>
+
+            <h2>9. Alterações nesta política</h2>
+            <p>
+                Esta política pode ser atualizada conforme o Vitracka evolui. Mudanças
+                relevantes serão indicadas pela data de "última atualização" no topo
+                desta página.
+            </p>
+
+            <h2>10. Contato</h2>
+            <p>
+                Dúvidas sobre esta política ou sobre o tratamento dos seus dados podem
+                ser enviadas para
+                <a href="mailto:contato@vitracka.com">contato@vitracka.com</a>.
+            </p>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h2>Vitracka</h2>
+                <p>Seu progresso, sem enrolação.</p>
+            </div>
+
+            <div class="footer-center">
+                <a href="{{ url_for('about') }}">Sobre</a>
+                <a href="{{ url_for('privacy') }}">Política de Privacidade</a>
+                <a href="{{ url_for('support') }}">Suporte</a>
+            </div>
+
+            <div class="footer-right">
+                <span>Feito com foco em performance</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -2,10 +2,11 @@ import json
 import os
 from datetime import date
 
-from flask import Flask, flash, render_template, request, redirect, url_for, session
+from flask import Flask, flash, render_template, request, redirect, url_for, session, jsonify
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from flask_migrate import Migrate
 from sqlalchemy.engine import URL
+from dotenv import load_dotenv
 
 from core.cenarios import gerar_cenarios
 from core.chat import gerar_resposta_chat
@@ -21,9 +22,11 @@ from core.models import (
 )
 from core.refeicoes import gerar_refeicao, gerar_todas_refeicoes
 
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "musculacao_Vitracka")
+
 
 @app.template_filter("from_json")
 def from_json_filter(value):
@@ -566,24 +569,48 @@ def check_in():
     return render_template("check_in.html")
 
 
-@app.route("/chat", methods=["GET", "POST"])
+@app.route("/chat")
 @login_required
 def chat():
     if "historico_chat" not in session:
         session["historico_chat"] = []
 
-    if request.method == "POST":
-        question = request.form["pergunta"]
-        history = session["historico_chat"]
-        history.append({"role": "user", "content": question})
+    return render_template(
+        "chat.html",
+        historico=session["historico_chat"]
+    )
 
-        answer = gerar_resposta_chat(history)
 
-        history.append({"role": "assistant", "content": answer})
-        session["historico_chat"] = history
-        session.modified = True
+@app.route("/api/chat", methods=["POST"])
+@login_required
+def api_chat():
+    data = request.get_json()
 
-    return render_template("chat.html", historico=session.get("historico_chat", []))
+    question = data.get("pergunta", "").strip()
+
+    if not question:
+        return jsonify({"erro": "Mensagem vazia"}), 400
+
+    history = session.get("historico_chat", [])
+
+    history.append({
+        "role": "user",
+        "content": question
+    })
+
+    answer = gerar_resposta_chat(history)
+
+    history.append({
+        "role": "assistant",
+        "content": answer
+    })
+
+    session["historico_chat"] = history
+    session.modified = True
+
+    return jsonify({
+        "answer": answer
+    })
 
 
 @app.route("/limpar-chat", methods=["POST"])
@@ -592,6 +619,25 @@ def limpar_chat():
     session.pop("historico_chat", None)
     return redirect(url_for("chat"))
 
+@app.route("/sobre")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/privacidade")
+def privacy():
+    return render_template("privacy.html")
+
+
+@app.route("/suporte")
+def support():
+    return render_template("support.html")
+
+
+@app.route("/funcionalidades")
+def features():
+    return render_template("features.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
+

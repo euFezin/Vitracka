@@ -10,23 +10,9 @@
 </head>
 <body>
 
+    {% include 'components/navbar.html' %}
+
     <div class="container">
-
-        <div class="topbar">
-            <div class="logo compact-logo">
-                <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
-                <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
-            </div>
-
-            <div class="topbar-actions">
-                <a href="{{ url_for('chat') }}" class="button-link">✦ Vix AI</a>
-                <a href="{{ url_for('objetivo') }}" class="button-link">Objetivo</a>
-                <a href="{{ url_for('dados') }}" class="button-link">Perfil</a>
-                <a href="{{ url_for('refeicoes') }}" class="button-link">Refeições</a>
-                <a href="{{ url_for('check_in') }}" class="button-link">Check-in</a>
-                <a href="{{ url_for('logout') }}" class="button-link">Sair</a>
-            </div>
-        </div>
 
         <section class="hero-section">
             <h2>Olá, {{ current_user.name }}</h2>

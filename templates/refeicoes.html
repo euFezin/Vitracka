@@ -10,21 +10,9 @@
 </head>
 <body>
 
+    {% include 'components/navbar.html' %}
+
 <div class="container">
-
-    <div class="header">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Logo">
-            <img src="{{ url_for('static', filename='images/nome.png') }}" alt="Vitracka" class="logo-text">
-        </div>
-    </div>
-
-    <nav class="refeicoes-nav">
-        <a href="/dashboard" class="nav-link">Minha jornada</a>
-        <a href="/explicacao" class="nav-link">Meu plano</a>
-        <a href="/chat" class="nav-link">✦ Vix AI</a>
-        <a href="/refeicoes" class="nav-link active">Refeições</a>
-    </nav>
 
     <h2>Suas refeições do dia</h2>
     <p class="subtitle">Baseado no seu plano <strong>{{ plano.nome }}</strong> — {{ plano.calorias }} kcal/dia.</p>

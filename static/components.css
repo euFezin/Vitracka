@@ -163,7 +163,7 @@ label {
   pointer-events: auto;
 
   min-width: 320px;
-  max-width: 900px;
+  max-width: var(--navbar-max-width, 900px);
   width: calc(100% - 40px);
 }
 
@@ -181,6 +181,20 @@ label {
   color: #22C55E;
   font-weight: 600;
   letter-spacing: 0.5px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo-link span {
+    color: #22C55E;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .header-nav {

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte — Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/institucional.css') }}">
+</head>
+<body class="landing-page">
+
+    {% include 'components/navbar.html' %}
+
+    <section class="page-hero">
+        <div class="page-hero-glow"></div>
+        <div class="page-hero-inner">
+            <span class="page-hero-label">Estamos aqui pra ajudar</span>
+            <h1>Suporte</h1>
+            <p>
+                Dúvidas comuns sobre o Vitracka. Não achou o que precisava?
+                Fala com a gente lá embaixo.
+            </p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="faq-list">
+
+            <details class="faq-item">
+                <summary>Como o Vitracka calcula minhas calorias e macros?</summary>
+                <p>
+                    Usamos seus dados de peso, altura, idade, sexo e nível de
+                    atividade para calcular sua Taxa Metabólica Basal (TMB) e seu
+                    Gasto Energético Total (TDEE). A partir disso, geramos cenários
+                    de bulking, cutting e manutenção com as calorias e macros
+                    ajustados para cada objetivo.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Posso mudar meu objetivo depois de criar o plano?</summary>
+                <p>
+                    Sim. Você pode refazer o cálculo e escolher um novo cenário
+                    (bulking, cutting ou manutenção) sempre que quiser, direto pelo
+                    seu dashboard.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>A Vix AI responde qualquer tipo de pergunta?</summary>
+                <p>
+                    A Vix é especializada em nutrição esportiva — dúvidas sobre
+                    dieta, macros, calorias, suplementação e estratégias de bulking,
+                    cutting e manutenção. Perguntas fora desse escopo não são
+                    respondidas pela Vix.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Posso regenerar uma refeição sugerida?</summary>
+                <p>
+                    Sim. Se uma sugestão de refeição não fizer sentido pra você, é
+                    possível regenerar apenas aquela refeição, sem precisar refazer
+                    o plano inteiro.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Como funciona o check-in de progresso?</summary>
+                <p>
+                    No check-in você registra seu peso periodicamente. Com isso, o
+                    Vitracka acompanha sua evolução ao longo do tempo e mantém seu
+                    streak de consistência no dashboard.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Meus dados estão seguros?</summary>
+                <p>
+                    Sim. Suas senhas são armazenadas com hash, o acesso é protegido
+                    por sessão autenticada e seus dados nunca são vendidos a
+                    terceiros. Você pode ver os detalhes completos na nossa
+                    <a href="{{ url_for('privacy') }}">Política de Privacidade</a>.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Esqueci minha senha, o que eu faço?</summary>
+                <p>
+                    No momento, a recuperação de senha ainda está sendo implementada
+                    — o Vitracka está em fase alpha. Enquanto isso, entre em contato
+                    pelo canal abaixo que ajudamos você a recuperar o acesso.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Encontrei um bug ou algo não funcionou como esperado. Como reporto?</summary>
+                <p>
+                    Manda um e-mail contando o que aconteceu (se possível, com
+                    prints da tela). Como o projeto está em desenvolvimento ativo,
+                    todo relato ajuda a melhorar a plataforma.
+                </p>
+            </details>
+
+        </div>
+
+        <div class="support-contact">
+            <h3>Ainda precisa de ajuda?</h3>
+            <p>Manda uma mensagem que a gente responde o quanto antes.</p>
+            <a href="mailto:contato@vitracka.com" class="ai-btn" style="text-decoration:none; padding: 10px 20px;">
+                contato@vitracka.com
+            </a>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h2>Vitracka</h2>
+                <p>Seu progresso, sem enrolação.</p>
+            </div>
+
+            <div class="footer-center">
+                <a href="{{ url_for('about') }}">Sobre</a>
+                <a href="{{ url_for('privacy') }}">Política de Privacidade</a>
+                <a href="{{ url_for('support') }}">Suporte</a>
+            </div>
+
+            <div class="footer-right">
+                <span>Feito com foco em performance</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

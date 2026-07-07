@@ -1,0 +1,276 @@
+/* ══════════════════════════════════════════════
+   INSTITUCIONAL — Sobre / Privacidade / Suporte / Funcionalidades
+   Reaproveita os tokens visuais de index.css e components.css
+══════════════════════════════════════════════ */
+
+/* ── Hero das páginas institucionais ── */
+.page-hero {
+    position: relative;
+    padding: 170px 24px 70px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.page-hero-glow {
+    position: absolute;
+    top: -220px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 500px;
+    background: radial-gradient(ellipse at center, rgba(34, 197, 94, 0.14) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.page-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.page-hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #22C55E;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    border-radius: 999px;
+    padding: 6px 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.page-hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #F1F5F9;
+    margin: 0 0 16px;
+}
+
+.page-hero h1 span {
+    background: linear-gradient(135deg, #22C55E 0%, #10B981 50%, #06B6D4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-hero p {
+    font-size: 17px;
+    color: #94A3B8;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.page-updated {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #64748B;
+}
+
+/* ── Corpo de conteúdo (Sobre / Privacidade) ── */
+.content-section {
+    padding: 10px 24px 100px;
+}
+
+.content-inner {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.content-inner h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #F1F5F9;
+    margin: 48px 0 16px;
+}
+
+.content-inner h2:first-child {
+    margin-top: 0;
+}
+
+.content-inner p {
+    font-size: 16px;
+    color: #94A3B8;
+    line-height: 1.75;
+    margin-bottom: 16px;
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+}
+
+.content-inner ul {
+    margin: 0 0 20px 20px;
+}
+
+.content-inner li {
+    font-size: 16px;
+    color: #94A3B8;
+    line-height: 1.75;
+    margin-bottom: 8px;
+}
+
+.content-inner strong {
+    color: #F1F5F9;
+}
+
+.content-inner a {
+    color: #22C55E;
+    text-decoration: none;
+}
+
+.content-inner a:hover {
+    text-decoration: underline;
+}
+
+/* ── Grid de valores / cards de destaque (Sobre) ── */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 24px 0 40px;
+}
+
+.value-card {
+    background: #0F172A;
+    border: 1px solid #1E293B;
+    border-radius: 20px;
+    padding: 28px;
+    transition: all 0.3s ease;
+}
+
+.value-card:hover {
+    border-color: rgba(34, 197, 94, 0.3);
+    transform: translateY(-4px);
+}
+
+.value-card .value-icon {
+    font-size: 26px;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.value-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #F1F5F9;
+    margin-bottom: 8px;
+}
+
+.value-card p {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+    margin: 0;
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+}
+
+/* ── Grid de funcionalidades (página Funcionalidades) ── */
+.full-features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 40px 0 20px;
+}
+
+/* reaproveita .feature-card de index.css */
+
+/* ── FAQ (página Suporte) — sem JS, usando <details> nativo ── */
+.faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: #0F172A;
+    border: 1px solid #1E293B;
+    border-radius: 16px;
+    padding: 18px 24px;
+    margin-bottom: 12px;
+    transition: border-color 0.25s ease;
+}
+
+.faq-item[open] {
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.faq-item summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: #F1F5F9;
+    font-size: 15px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    color: #22C55E;
+    font-size: 20px;
+    font-weight: 400;
+    flex-shrink: 0;
+}
+
+.faq-item[open] summary::after {
+    content: '\2013';
+}
+
+.faq-item p {
+    font-size: 14px;
+    color: #94A3B8;
+    line-height: 1.65;
+    margin-top: 14px;
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+}
+
+/* ── Card de contato (página Suporte) ── */
+.support-contact {
+    max-width: 720px;
+    margin: 48px auto 0;
+    background: #0F172A;
+    border: 1px solid #1E293B;
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+}
+
+.support-contact h3 {
+    font-size: 18px;
+    color: #F1F5F9;
+    margin-bottom: 8px;
+}
+
+.support-contact p {
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 20px;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 768px) {
+    .page-hero {
+        padding: 140px 20px 50px;
+    }
+
+    .values-grid,
+    .full-features-grid {
+        grid-template-columns: 1fr;
+    }
+}

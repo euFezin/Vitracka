@@ -1,10 +1,14 @@
 # Ambiente virtual
 venv/
 .venv/
+env/
+ENV/
 
 # Variáveis de ambiente
 .env
 .env.local
+.env.*.local
+.flaskenv
 
 # Cache do Python
 __pycache__/
@@ -15,23 +19,32 @@ __pycache__/
 # Arquivos temporários
 *.tmp
 *.log
+*.bak
+*.orig
 
 # Banco de dados local
 *.db
 *.sqlite3
+*.sqlite3-journal
+instance/
 
-# Arquivos de sessão Flask
+# Sessão Flask / cache de testes
 flask_session/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
 # Arquivos do sistema
 .DS_Store
 Thumbs.db
+Desktop.ini
 
-# Configuração do VS Code
+# Editores / IDEs
 .vscode/
-
-# Arquivos do PyCharm
 .idea/
+*.iml
 
 # Build e distribuição
 build/
@@ -47,9 +60,7 @@ uploads/
 *.7z
 *.pdf
 
-# Modelos locais / pesos (caso use)
 models/
 *.gguf
 
-# Node modules (se futuramente usar frontend separado)
 node_modules/
