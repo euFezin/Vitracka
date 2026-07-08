@@ -530,19 +530,34 @@ def regenerar_refeicao():
 
     meal_name = request.form["refeicao"]
     template_plan = plan_to_template(plan)
+
     meals = session.get("refeicoes", {})
-    meals[meal_name] = gerar_refeicao(meal_name, template_plan)
+
+    nova = gerar_refeicao(meal_name, template_plan)
+
+    print("==========")
+    print("Refeição:", meal_name)
+    print("Resposta:", repr(nova))
+    print("==========")
+
+    if nova.strip():
+        meals[meal_name] = nova
+
     session["refeicoes"] = meals
     session.modified = True
-
-    db.session.add(
-        MealSuggestion(
-            user_id=current_user.id,
-            nutrition_plan_id=plan.id,
-            meals_json=json.dumps(meals, ensure_ascii=False),
-        )
+    
+    saved_meals = (
+    MealSuggestion.query.filter_by(
+        user_id=current_user.id,
+        nutrition_plan_id=plan.id
     )
-    db.session.commit()
+        .order_by(MealSuggestion.created_at.desc())
+        .first()
+    )
+
+    if saved_meals:
+        saved_meals.meals_json = json.dumps(meals, ensure_ascii=False)
+        db.session.commit()
 
     return redirect(url_for("refeicoes"))
 

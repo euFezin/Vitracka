@@ -90,7 +90,7 @@
             </section>
 
             <section class="platform-card meals-card">
-                <h3>Plano alimentar atual</h3>
+                <h3>Meu Plano alimentar</h3>
 
                 {% if latest_meal %}
                     {% set meals_data = latest_meal.meals_json | from_json %}
@@ -110,7 +110,7 @@
                 {% endif %}
 
                 <a href="{{ url_for('refeicoes') }}" class="small-button">
-                    Gerar novo plano
+                    Ver Refeições
                 </a>
             </section>
 

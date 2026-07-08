@@ -32,7 +32,7 @@ def gerar_explicacao(plano, objetivo, peso, atividade):
 
     try:
         resposta = client.chat.completions.create(
-            model=os.getenv("HF_MODEL"),
+            model=os.getenv("HF_MODEL_EXPLICACAO"),
             messages=[
                 {"role": "user", "content": prompt}
             ],

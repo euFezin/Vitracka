@@ -34,18 +34,24 @@ Distribua aproximadamente 25% das calorias totais nessa refeição.
 
     try:
         resposta = client.chat.completions.create(
-            model=os.getenv("HF_MODEL"),
+            model=os.getenv("HF_MODEL_REFEICOES"),
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.6,
-            max_tokens=200,
+            max_tokens=500,
         )
 
-        return resposta.choices[0].message.content
+        texto = (resposta.choices[0].message.content or "").strip()
 
-    except Exception:
+        if not texto:
+            raise ValueError("O modelo retornou uma resposta vazia.")
+
+        return texto
+
+    except Exception as e:
+        print(f"[ERRO] Falha ao gerar refeição: {e}")
         return "Não foi possível gerar a sugestão de refeição agora. Tente novamente em instantes."
 
 

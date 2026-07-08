@@ -37,7 +37,7 @@ def gerar_resposta_chat(historico):
 
     try:
         resposta = client.chat.completions.create(
-            model=os.getenv("HF_MODEL"),
+            model=os.getenv("HF_MODEL_CHAT"),
             messages=messages,
             temperature=0.5,
             max_tokens=300,
