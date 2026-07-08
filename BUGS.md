@@ -1,4 +1,4 @@
-# Bugs conhecidos - Vitracka v0.4 Alpha
+# Bugs conhecidos - Vitracka 
 
 Este arquivo documenta problemas conhecidos encontrados durante o desenvolvimento da versão **v0.4 Alpha** do Vitracka.
 
@@ -6,32 +6,32 @@ Este arquivo documenta problemas conhecidos encontrados durante o desenvolviment
 
 ## Bug #001 - Erro em função de gerar outra recomendação alimentar
 
-**Status:** Aberto
+**Status:** Corrigido
 
 **Versão afetada:** v0.4 Alpha
+**Versão corrigida:** v0.4.1 Alpha
 
 **Prioridade:** Alta
 
 ### Descrição
 
-Após alterações realizadas durante o desenvolvimento da versão v0.4 Alpha, a determinada função do sistema passou a apresentar comportamento incorreto.
+Após alterações realizadas durante o desenvolvimento da versão v0.4 Alpha, a função de gerar nova recomendação alimentar passou a apagar a refeição existente em vez de substituí-la por uma nova.
 
-O problema foi identificado após modificações no código e ainda necessita de investigação para encontrar a causa raiz.
+O problema foi identificado após modificações no código e necessitou de investigação para encontrar a causa raiz.
 
 ### Impacto
 
-A funcionalidade relacionada à função afetada não funcionará corretamente, afetando diretamente a experiência do usuário.
+Ao clicar em "gerar nova refeição", a refeição atual era removida sem que uma nova fosse gerada corretamente no lugar.
 
-### Possível causa
+### Causa raiz
 
-Uma possível causa para esse erro está relacionada a substituição da IA Local utilizada em versões passadas pela implementação de uma IA através do Hugging Face
+O erro estava relacionado à quantidade máxima de tokens utilizada pelo modelo de IA: o limite implementado no sistema não era suficiente para a função retornar a resposta completa ao usuário.
 
-### Correção planejada
+### Solução aplicada
 
-* Revisar o código da função afetada;
-* Identificar a origem do erro;
-* Aplicar a correção;
-* Realizar testes para garantir que outras funcionalidades não sejam afetadas.
+* Revisado o código da função afetada;
+* Substituído o modelo de IA pelo `Qwen/Qwen2.5-7B-Instruct`, que se encaixa melhor no contexto da aplicação;
+* Testado para garantir que outras funcionalidades não foram afetadas.
 
 ---
 ---
