@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Configurações - Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/plataforma.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/configuracoes.css') }}">
+</head>
+<body>
+
+    {% include 'components/navbar.html' %}
+
+    <div class="settings-page">
+
+    <aside class="settings-sidebar">
+        <button type="button" class="settings-tab-btn active" data-target="perfil">Perfil</button>
+        <button type="button" class="settings-tab-btn" data-target="seguranca">Segurança</button>
+        <button type="button" class="settings-tab-btn" data-target="fisico">Dados físicos</button>
+        <button type="button" class="settings-tab-btn danger-tab" data-target="excluir">Excluir conta</button>
+
+        <div class="settings-sidebar-divider"></div>
+
+        <a href="{{ url_for('privacy') }}" class="settings-sidebar-link">Política de Privacidade</a>
+        <a href="{{ url_for('support') }}" class="settings-sidebar-link">Suporte</a>
+    </aside>
+
+    <div class="settings-content">
+
+        <section id="tab-perfil" class="platform-card settings-tab active">
+            <h3>Perfil</h3>
+            <p class="muted">Seu nome e e-mail de acesso.</p>
+
+            <form method="POST" action="{{ url_for('configuracoes_perfil') }}" class="settings-form">
+                <label>Nome</label>
+                <input type="text" name="nome" value="{{ current_user.name }}" required>
+
+                <label>E-mail</label>
+                <input type="email" name="email" value="{{ current_user.email }}" required>
+
+                <button type="submit">Salvar perfil</button>
+            </form>
+        </section>
+
+        <section id="tab-seguranca" class="platform-card settings-tab">
+            <h3>Segurança</h3>
+            <p class="muted">Altere sua senha de acesso.</p>
+
+            <form method="POST" action="{{ url_for('configuracoes_senha') }}" class="settings-form">
+                <label>Senha atual</label>
+                <input type="password" name="senha_atual" required>
+
+                <label>Nova senha</label>
+                <input type="password" name="nova_senha" minlength="6" required>
+
+                <label>Confirmar nova senha</label>
+                <input type="password" name="confirmar_senha" minlength="6" required>
+
+                <button type="submit">Alterar senha</button>
+            </form>
+        </section>
+
+        <section id="tab-fisico" class="platform-card settings-tab">
+            <h3>Dados físicos e objetivo</h3>
+            <p class="muted">
+                Atualize seus dados para recalcular sua estratégia nutricional.
+                {% if profile %}
+                    Seu último registro foi
+                    {{ profile.weight }} kg / {{ profile.height }} cm / {{ profile.age }} anos.
+                {% endif %}
+            </p>
+
+            <form method="POST" action="{{ url_for('configuracoes_fisico') }}" class="settings-form">
+
+                <div class="settings-grid">
+
+                    <div>
+                        <label>Sexo</label>
+                        <select name="genero" required>
+                            <option value="masculino" {% if profile and profile.gender == 'masculino' %}selected{% endif %}>Masculino</option>
+                            <option value="feminino" {% if profile and profile.gender == 'feminino' %}selected{% endif %}>Feminino</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Peso (kg)</label>
+                        <input type="number" name="peso" step="0.1" value="{{ profile.weight if profile else '' }}" required>
+                    </div>
+
+                    <div>
+                        <label>Altura (cm)</label>
+                        <input type="number" name="altura" value="{{ profile.height if profile else '' }}" required>
+                    </div>
+
+                    <div>
+                        <label>Idade</label>
+                        <input type="number" name="idade" value="{{ profile.age if profile else '' }}" required>
+                    </div>
+
+                    <div>
+                        <label>Nível de atividade</label>
+                        <select name="atividade">
+                            <option value="sedentario" {% if profile and profile.activity_level == 'sedentario' %}selected{% endif %}>Sedentário</option>
+                            <option value="leve" {% if profile and profile.activity_level == 'leve' %}selected{% endif %}>Leve</option>
+                            <option value="moderado" {% if profile and profile.activity_level == 'moderado' %}selected{% endif %}>Moderado</option>
+                            <option value="intenso" {% if profile and profile.activity_level == 'intenso' %}selected{% endif %}>Intenso</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Objetivo</label>
+                        <select name="objetivo">
+                            <option value="">Manter objetivo atual</option>
+                            <option value="bulking" {% if goal and goal.objective == 'bulking' %}selected{% endif %}>Ganhar massa</option>
+                            <option value="cutting" {% if goal and goal.objective == 'cutting' %}selected{% endif %}>Perder gordura</option>
+                            <option value="manter" {% if goal and goal.objective == 'manter' %}selected{% endif %}>Manter peso</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Peso alvo (kg)</label>
+                        <input type="number" name="target_weight" step="0.1" value="{{ goal.target_weight if goal and goal.target_weight else '' }}">
+                    </div>
+
+                </div>
+
+                <button type="submit">Salvar dados físicos</button>
+            </form>
+        </section>
+
+        <section id="tab-excluir" class="platform-card danger-zone settings-tab">
+            <h3>Excluir conta</h3>
+            <p class="muted">
+                Essa ação é permanente. Todos os seus dados — perfil, planos, refeições,
+                treinos e check-ins — serão apagados e não poderão ser recuperados.
+            </p>
+
+            <form method="POST" action="{{ url_for('configuracoes_excluir_conta') }}"
+                  class="settings-form"
+                  onsubmit="return confirm('Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.');">
+                <label>Confirme sua senha</label>
+                <input type="password" name="senha" required>
+
+                <button type="submit" class="danger-button">Excluir minha conta</button>
+            </form>
+        </section>
+
+    </div>
+
+</div>
+
+    <script>
+        const tabButtons = document.querySelectorAll('.settings-tab-btn');
+        const tabSections = document.querySelectorAll('.settings-tab');
+
+        tabButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach((b) => b.classList.remove('active'));
+                tabSections.forEach((s) => s.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById('tab-' + btn.dataset.target).classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

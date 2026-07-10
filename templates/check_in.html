@@ -20,14 +20,18 @@
         <p class="subtitle">Registre dados simples para acompanhar sua evolucao.</p>
 
         <form method="POST" class="platform-card">
-            <label>Peso atual (kg)</label>
-            <input type="number" name="peso" step="0.1" required>
+            <label>Peso atual</label>
+            <div class="input-with-unit">
+                <input type="number" name="peso" step="0.1" required>
+                <span>kg</span>
+            </div>
 
-            <label>Cintura (cm)</label>
-            <input type="number" name="cintura" step="0.1">
-
-            <label>Observacoes</label>
-            <textarea name="observacoes" rows="4" placeholder="Como foi a semana? Treinos, fome, energia..."></textarea>
+            <label>Observações</label>
+            <textarea
+                name="observacoes"
+                rows="5"
+                maxlength="500"
+                placeholder="Ex.: Me senti bem durante os treinos, tive dificuldade em bater os carboidratos e dormi cerca de 7 horas por noite."></textarea>
 
             <button type="submit">Salvar check-in</button>
         </form>

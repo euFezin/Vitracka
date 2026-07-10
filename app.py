@@ -11,10 +11,12 @@ from dotenv import load_dotenv
 from core.cenarios import gerar_cenarios
 from core.chat import gerar_resposta_chat
 from core.ia_explicacao import gerar_explicacao
+from core.workout import gerar_treino
 from core.models import (
     Goal,
     MealSuggestion,
     NutritionPlan,
+    WorkoutPlan,
     PhysicalProfile,
     ProgressCheckIn,
     User,
@@ -244,7 +246,9 @@ def dashboard():
         .first()
     )
 
-    workout = None
+    workout = WorkoutPlan.query.filter_by(
+    user_id=current_user.id
+    ).first()
 
     current_weight = None
     if latest_check_in:
@@ -292,7 +296,8 @@ def dashboard():
         current_weight=current_weight,
         progress=progress,
         remaining_weight=remaining_weight,
-        streak=streak
+        streak=streak,
+        today=date.today()
     )
 
 @app.route("/objetivo", methods=["GET", "POST"])
@@ -583,6 +588,36 @@ def check_in():
 
     return render_template("check_in.html")
 
+@app.route("/treino")
+@login_required
+def treino():
+
+    profile = get_current_profile()
+    goal = get_current_goal()
+
+    if not profile or not goal:
+        return redirect(url_for("dashboard"))
+
+    treino = gerar_treino(profile, goal)
+
+    workout = WorkoutPlan.query.filter_by(
+        user_id=current_user.id
+    ).first()
+
+    if workout:
+        workout.content = treino
+
+    else:
+        workout = WorkoutPlan(
+            user_id=current_user.id,
+            content=treino
+        )
+
+        db.session.add(workout)
+
+    db.session.commit()
+
+    return redirect(url_for("dashboard"))
 
 @app.route("/chat")
 @login_required
@@ -592,7 +627,8 @@ def chat():
 
     return render_template(
         "chat.html",
-        historico=session["historico_chat"]
+        historico=session["historico_chat"],
+        prefill=request.args.get("pergunta", ""),
     )
 
 
@@ -633,6 +669,138 @@ def api_chat():
 def limpar_chat():
     session.pop("historico_chat", None)
     return redirect(url_for("chat"))
+
+@app.route("/configuracoes")
+@login_required
+def configuracoes():
+    profile = get_current_profile()
+    goal = get_current_goal()
+
+    return render_template(
+        "configuracoes.html",
+        profile=profile,
+        goal=goal,
+        active_page="configuracoes",
+    )
+
+@app.route("/configuracoes/perfil", methods=["POST"])
+@login_required
+def configuracoes_perfil():
+    name = request.form.get("nome", "").strip()
+    email = request.form.get("email", "").strip().lower()
+
+    if not name or not email:
+        flash("Preencha nome e e-mail.")
+        return redirect(url_for("configuracoes"))
+
+    email_em_uso = User.query.filter(
+        User.email == email, User.id != current_user.id
+    ).first()
+
+    if email_em_uso:
+        flash("Esse e-mail ja esta em uso por outra conta.")
+        return redirect(url_for("configuracoes"))
+
+    current_user.name = name
+    current_user.email = email
+    db.session.commit()
+
+    flash("Perfil atualizado com sucesso.")
+    return redirect(url_for("configuracoes"))
+
+@app.route("/configuracoes/senha", methods=["POST"])
+@login_required
+def configuracoes_senha():
+    senha_atual = request.form.get("senha_atual", "")
+    nova_senha = request.form.get("nova_senha", "")
+    confirmar_senha = request.form.get("confirmar_senha", "")
+
+    if not current_user.check_password(senha_atual):
+        flash("Senha atual incorreta.")
+        return redirect(url_for("configuracoes"))
+
+    if len(nova_senha) < 6:
+        flash("A nova senha deve ter pelo menos 6 caracteres.")
+        return redirect(url_for("configuracoes"))
+
+    if nova_senha != confirmar_senha:
+        flash("As senhas nao coincidem.")
+        return redirect(url_for("configuracoes"))
+
+    current_user.set_password(nova_senha)
+    db.session.commit()
+
+    flash("Senha alterada com sucesso.")
+    return redirect(url_for("configuracoes"))
+
+@app.route("/configuracoes/fisico", methods=["POST"])
+@login_required
+def configuracoes_fisico():
+    gender = request.form.get("genero")
+    weight = request.form.get("peso")
+    height = request.form.get("altura")
+    age = request.form.get("idade")
+    activity_level = request.form.get("atividade")
+    objective = request.form.get("objetivo")
+    target_weight = request.form.get("target_weight")
+
+    db.session.add(
+        PhysicalProfile(
+            user_id=current_user.id,
+            gender=gender,
+            weight=float(weight),
+            height=float(height),
+            age=int(age),
+            activity_level=activity_level or None,
+        )
+    )
+
+    if objective:
+        Goal.query.filter_by(
+            user_id=current_user.id, is_active=True
+        ).update({"is_active": False})
+
+        db.session.add(
+            Goal(
+                user_id=current_user.id,
+                objective=objective,
+                target_weight=float(target_weight) if target_weight else None,
+                is_active=True,
+            )
+        )
+
+    db.session.commit()
+
+    flash("Dados fisicos atualizados com sucesso.")
+    return redirect(url_for("configuracoes"))
+
+@app.route("/configuracoes/excluir-conta", methods=["POST"])
+@login_required
+def configuracoes_excluir_conta():
+    senha = request.form.get("senha", "")
+
+    if not current_user.check_password(senha):
+        flash("Senha incorreta. Sua conta nao foi excluida.")
+        return redirect(url_for("configuracoes"))
+
+    user_id = current_user.id
+
+    MealSuggestion.query.filter_by(user_id=user_id).delete()
+    NutritionPlan.query.filter_by(user_id=user_id).delete()
+    ProgressCheckIn.query.filter_by(user_id=user_id).delete()
+    WorkoutPlan.query.filter_by(user_id=user_id).delete()
+    Goal.query.filter_by(user_id=user_id).delete()
+    PhysicalProfile.query.filter_by(user_id=user_id).delete()
+
+    user = db.session.get(User, user_id)
+    db.session.delete(user)
+    db.session.commit()
+
+    logout_user()
+    session.clear()
+
+    flash("Sua conta foi excluida com sucesso.")
+    return redirect(url_for("home"))
 
 @app.route("/sobre")
 def about():

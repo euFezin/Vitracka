@@ -32,6 +32,11 @@
                     ✦ Vix AI
                 </a>
 
+                <a href="{{ url_for('configuracoes') }}"
+                    class="{% if active_page == 'configuracoes' %}active{% endif %}">
+                        Configurações
+                </a>
+
                 <a href="{{ url_for('logout') }}">
                     Sair
                 </a>

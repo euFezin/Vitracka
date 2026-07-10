@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='paginas/plataforma.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/dashboard.css') }}">
 </head>
 <body>
 
@@ -14,45 +15,90 @@
 
     <div class="container">
 
-        <section class="hero-section">
-            <h2>Olá, {{ current_user.name }}</h2>
+        <section class="dash-header">
+            <div class="dash-header-text">
+                <p class="eyebrow">Vamos com tudo hoje.</p>
+                <h2>Olá, {{ current_user.name }} 👋</h2>
+            </div>
 
-            <p class="subtitle">
-                Continue sua jornada. Você está mais perto do seu objetivo.
-            </p>
+            <div class="dash-header-actions">
+                <div class="date-badge">
+                    <span class="date-day">{{ today.strftime('%d') }}</span>
+                    <span class="date-full">{{ today.strftime('%a') }},<br>{{ today.strftime('%B') }}</span>
+                </div>
 
-            <div class="hero-badges">
-                {% if goal %}
-                    <span class="badge">
-                        Plano atual: {{ goal.objective }}
-                    </span>
-                {% endif %}
-
-                <span class="badge">
-                    {{ streak }} dias de consistência
-                </span>
+                <a href="{{ url_for('check_in') }}" class="button-link">Novo Check-in</a>
+                
             </div>
         </section>
+
+        <div class="hero-badges">
+            {% if goal %}
+                <span class="badge">Plano atual: {{ goal.objective }}</span>
+            {% endif %}
+            <span class="badge">{{ streak }} dias de consistência</span>
+        </div>
+
+        <div class="stats-row">
+
+            <div class="stat-card highlight">
+                <div class="stat-top">
+                    <span class="stat-label">Peso atual</span>
+                </div>
+                {% if current_weight %}
+                    <span class="stat-value">{{ current_weight }} kg</span>
+                {% else %}
+                    <span class="stat-value">--</span>
+                {% endif %}
+            </div>
+
+            <div class="stat-card disabled">
+                <div class="stat-top">
+                    <span class="stat-label">Passos</span>
+                    <span class="stat-icon">👟</span>
+                </div>
+                <span class="stat-value">--</span>
+                <span class="stat-soon">Em breve</span>
+            </div>
+
+            <div class="stat-card disabled">
+                <div class="stat-top">
+                    <span class="stat-label">Sono</span>
+                    <span class="stat-icon">🌙</span>
+                </div>
+                <span class="stat-value">--</span>
+                <span class="stat-soon">Em breve</span>
+            </div>
+
+            <div class="stat-card disabled">
+                <div class="stat-top">
+                    <span class="stat-label">Água</span>
+                    <span class="stat-icon">💧</span>
+                </div>
+                <span class="stat-value">--</span>
+                <span class="stat-soon">Em breve</span>
+            </div>
+
+        </div>
 
         <div class="dashboard-layout">
 
             <section class="platform-card progress-card">
-                <h3>Seu progresso</h3>
+                <h3>Rumo ao objetivo</h3>
 
                 {% if current_weight %}
-                    <p class="metric-main">{{ current_weight }} kg</p>
-
                     {% if goal and goal.target_weight %}
-                        <p class="muted">
-                            Meta: {{ goal.target_weight }} kg
-                        </p>
+                        <div class="progress-goal-row">
+                            <span class="progress-goal-label">Meta</span>
+                            <span class="progress-goal-value">{{ goal.target_weight }} kg</span>
+                        </div>
 
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: {{ progress }}%;"></div>
                         </div>
 
                         <p class="muted">
-                            {{ remaining_weight | round(1) }} kg restantes
+                            {{ remaining_weight | round(1) }} kg restantes · {{ progress | round(0) }}% concluído
                         </p>
                     {% else %}
                         <p class="muted">
@@ -68,25 +114,99 @@
                 <a href="{{ url_for('check_in') }}" class="small-button">
                     Atualizar progresso
                 </a>
+                <a href="{{ url_for('objetivo') }}" class="secondary-button">
+                    Alterar plano
+                </a>
+            </section>
+
+            <section class="platform-card nutrition-card">
+                <h3>Nutrição do dia</h3>
+
+                {% if plan %}
+                    {% set protein_kcal = plan.protein * 4 %}
+                    {% set carbs_kcal = plan.carbs * 4 %}
+                    {% set fat_kcal = plan.fat * 9 %}
+                    {% set total_kcal = protein_kcal + carbs_kcal + fat_kcal %}
+                    {% set carbs_pct = (carbs_kcal / total_kcal * 100) if total_kcal else 0 %}
+                    {% set protein_pct = (protein_kcal / total_kcal * 100) if total_kcal else 0 %}
+                    {% set carbs_end = carbs_pct %}
+                    {% set protein_end = carbs_pct + protein_pct %}
+
+                    <div class="nutrition-body">
+
+                        <div class="macro-ring"
+                            style="background: conic-gradient(#22C55E 0% {{ carbs_end }}%, #38BDF8 {{ carbs_end }}% {{ protein_end }}%, #F59E0B {{ protein_end }}% 100%);">
+                            <div class="macro-ring-hole">
+                                <span class="macro-ring-value">{{ plan.calories }}</span>
+                                <span class="macro-ring-label">kcal / dia</span>
+                            </div>
+                        </div>
+
+                        <div class="macro-legend">
+                            <div class="macro-legend-item">
+                                <span class="macro-dot" style="background:#22C55E;"></span>
+                                <div>
+                                    <strong>{{ plan.carbs }}g</strong>
+                                    <span class="muted">Carboidratos</span>
+                                </div>
+                            </div>
+
+                            <div class="macro-legend-item">
+                                <span class="macro-dot" style="background:#38BDF8;"></span>
+                                <div>
+                                    <strong>{{ plan.protein }}g</strong>
+                                    <span class="muted">Proteínas</span>
+                                </div>
+                            </div>
+
+                            <div class="macro-legend-item">
+                                <span class="macro-dot" style="background:#F59E0B;"></span>
+                                <div>
+                                    <strong>{{ plan.fat }}g</strong>
+                                    <span class="muted">Gorduras</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                {% else %}
+                    <p class="muted">Você ainda não escolheu um plano nutricional.</p>
+                    <a href="{{ url_for('dashboard') }}" class="small-button">Definir plano</a>
+                {% endif %}
+            </section>
+
+            <section class="platform-card ai-card">
+                <h3>✦ Vix AI</h3>
+                <p class="muted">Oi, {{ current_user.name.split(' ')[0] }}! Como posso ajudar?</p>
+
+                <div class="ai-quick-actions">
+                    <a href="{{ url_for('chat', pergunta='Monte um plano de refeições para hoje') }}" class="ai-chip">Gerar plano</a>
+                    <a href="{{ url_for('chat', pergunta='Me dê dicas de treino') }}" class="ai-chip">Dicas de treino</a>
+                    <a href="{{ url_for('chat', pergunta='Analise meu progresso') }}" class="ai-chip">Analisar progresso</a>
+                </div>
+
+                <form action="{{ url_for('chat') }}" method="GET" class="ai-quick-input">
+                    <input type="text" name="pergunta" placeholder="Pergunte algo...">
+                    <button type="submit">➤</button>
+                </form>
             </section>
 
             <section class="platform-card workout-card">
                 <h3>Treino atual</h3>
 
                 {% if workout %}
-                    <p class="metric-main">Treino disponível</p>
-                    <p class="muted">
-                        Criado em {{ workout.created_at.strftime('%d/%m/%Y') }}
-                    </p>
+                    <div class="workout-box">
+                        <pre class="workout-content">{{ workout.content }}</pre>
+                    </div>
+
+                    <a href="{{ url_for('treino') }}" class="small-button">
+                        Gerar treino
+                    </a>
                 {% else %}
                     <p class="muted">
-                        Sistema de treinos em desenvolvimento.
+                        Você ainda não possui um treino gerado.
                     </p>
                 {% endif %}
-
-                <button class="button-link" disabled>
-                    Em breve
-                </button>
             </section>
 
             <section class="platform-card meals-card">
@@ -95,12 +215,15 @@
                 {% if latest_meal %}
                     {% set meals_data = latest_meal.meals_json | from_json %}
 
-                    <div class="history-list">
+                    <div class="meal-list">
                         {% for meal_name, meal_content in meals_data.items() %}
-                            <div class="history-item">
-                                <strong>{{ meal_name }}</strong>
-                                <p>{{ meal_content }}</p>
-                            </div>
+                            <label class="meal-item">
+                                <input type="checkbox" class="meal-check">
+                                <div class="meal-item-text">
+                                    <strong>{{ meal_name }}</strong>
+                                    <p>{{ meal_content }}</p>
+                                </div>
+                            </label>
                         {% endfor %}
                     </div>
                 {% else %}
@@ -117,37 +240,28 @@
         </div>
 
         <section class="platform-card section-block">
-            <div class="section-heading">
-                <div>
-                    <h3>Histórico recente</h3>
-                    <p class="muted">
-                        Seus últimos check-ins e evolução.
-                    </p>
-                </div>
-
-                <a href="{{ url_for('check_in') }}" class="small-button">
-                    Novo check-in
-                </a>
-            </div>
-
             {% if check_ins %}
-                <div class="history-list">
+                <div class="timeline-list">
                     {% for item in check_ins %}
-                        <div class="history-item">
-                            <strong>
-                                {{ item.created_at.strftime('%d/%m/%Y') }}
-                            </strong>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
 
-                            <span>
-                                {{ item.weight }} kg
-                                {% if item.waist %}
-                                    • cintura {{ item.waist }} cm
+                            <div class="timeline-content">
+                                <div class="timeline-top">
+                                    <strong>{{ item.weight }} kg</strong>
+                                    <span class="timeline-date">{{ item.created_at.strftime('%d/%m/%Y') }}</span>
+                                </div>
+
+                                <div class="timeline-meta">
+                                    {% if item.waist %}
+                                        <span>Cintura: {{ item.waist }} cm</span>
+                                    {% endif %}
+                                </div>
+
+                                {% if item.notes %}
+                                    <p class="timeline-notes">{{ item.notes }}</p>
                                 {% endif %}
-                            </span>
-
-                            {% if item.notes %}
-                                <p>{{ item.notes }}</p>
-                            {% endif %}
+                            </div>
                         </div>
                     {% endfor %}
                 </div>

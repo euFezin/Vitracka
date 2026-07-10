@@ -1,6 +1,6 @@
 # Vitracka
 
-Vitracka é uma aplicação fitness com suporte de IA voltada para cálculo nutricional, geração de refeições personalizadas e assistência inteligente para objetivos de bulking, cutting e manutenção.
+Vitracka é uma aplicação fitness inteligente que utiliza Inteligência Artificial para auxiliar usuários no planejamento nutricional e de treinamento, oferecendo cálculo metabólico, geração de refeições personalizadas, criação de treinos e suporte para objetivos como bulking, cutting e manutenção.
 
 ⚠️ Projeto em desenvolvimento.
 Atualmente em fase de MVP e recebendo melhorias contínuas.
@@ -10,38 +10,56 @@ Atualmente em fase de MVP e recebendo melhorias contínuas.
 - [x] Sistema de cálculo de TMB/TDEE
 - [x] Definição de objetivos (bulk/cut/manutenção)
 - [x] Geração de refeições
-- [x] Integração com IA local (LM Studio)
+- [x] Integração inicial com IA local via LM Studio
+- [x] Migração da camada de IA para modelos da Hugging Face
 - [x] Chat nutricional
 - [x] Persistência com banco de dados
 - [x] Histórico de progresso
 - [x] Login e autenticação
-- [x] Substituição de IA Local por Hugging Face
 - [x] Implementação de Política e Privacidade
+- [x] Página de configurações de conta
 - [ ] Implementação de um Mascote para o aplicativo
 - [ ] Dashboard de métricas
+- [ ] Exportar plano (dieta + treino) em PDF
 - [ ] Upload de fotos para análise corporal
 
 ## Status atual
 
 O sistema já realiza:
-- cálculo metabólico
-- recomendação calórica
-- distribuição de macronutrientes
-- geração de refeições baseada em metas
-- chat contextual com IA 
-- login e autenticação de usuário
+
+- Cálculo metabólico individualizado.
+- Recomendação de ingestão calórica conforme objetivo do usuário.
+- Distribuição personalizada de macronutrientes.
+- Geração de refeições baseada em metas nutricionais.
+- Chat contextual com Inteligência Artificial através da Vix AI.
+- Assistência da IA em dúvidas relacionadas à nutrição, musculação e treinamento.
+- Geração de planos de treino personalizados utilizando Inteligência Artificial.
+- Gerenciamento de conta, incluindo alteração de dados pessoais, senha e exclusão de usuário.
+- Sistema de autenticação e controle de acesso de usuários.
+- Dashboard personalizado para acompanhamento das informações do usuário.
 
 
 ## Tecnologias
 
-Python  
-Flask  
-HTML  
-CSS  
-Hugging Face
-Jinja2
-MySQL
-Alembic
+### Backend
+- Python
+- Flask
+- SQLAlchemy
+- Flask-Migrate
+- Alembic
+
+### Frontend
+- HTML
+- CSS
+- JavaScript
+- Jinja2
+
+### Banco de dados
+- MySQL
+
+### Inteligência Artificial
+- Hugging Face Transformers
+- Modelos LLM locais
 
 ## Banco de dados local
 
@@ -79,6 +97,10 @@ O sistema cria as tabelas de usuarios, perfis fisicos, objetivos, planos, refeic
 
 ## Desenvolvimento assistido por IA
 
-- A estrutura inicial do banco de dados foi gerada com auxílio de IA generativa (ChatGPT Codex) e integrada ao projeto após validação e ajustes.
-- Parte da estrutura inicial e estilização do projeto também foi acelerada com auxílio de IA.
-- A arquitetura, lógica de negócio e evolução do sistema foram desenvolvidas durante o processo de aprendizado.
+A Inteligência Artificial foi utilizada como ferramenta de apoio durante o desenvolvimento, principalmente para:
+
+- Pesquisa e validação de abordagens técnicas.
+- Auxílio na estruturação inicial de componentes e banco de dados.
+- Revisão de código e resolução de problemas.
+
+A arquitetura, regras de negócio e evolução do sistema foram desenvolvidas e validadas durante o processo de aprendizado.

@@ -1,0 +1,153 @@
+:root {
+    --navbar-max-width: 900px;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.settings-form label {
+    font-size: 14px;
+    color: #CBD5E1;
+    margin-top: 8px;
+}
+
+.settings-form input,
+.settings-form select {
+    height: 46px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    background: #0F172A;
+    color: white;
+    outline: none;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.settings-form input:focus,
+.settings-form select:focus {
+    border-color: #22C55E;
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.15);
+}
+
+.settings-form button {
+    margin-top: 18px;
+}
+
+.alert {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #F87171;
+    padding: 12px 14px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.danger-zone {
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
+}
+
+.danger-zone h3 {
+    color: #F87171;
+}
+
+.danger-button {
+    background: linear-gradient(90deg, #EF4444, #B91C1C) !important;
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.20) !important;
+}
+
+.danger-button:hover {
+    box-shadow: 0 0 22px rgba(239, 68, 68, 0.35) !important;
+}
+
+.settings-page {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 120px 40px 28px;
+}
+
+.settings-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: sticky;
+    top: 120px;
+}
+
+.settings-tab-btn {
+    text-align: left;
+    background: transparent;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    color: #CBD5E1;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.settings-tab-btn:hover {
+    border-color: rgba(34, 197, 94, 0.35);
+    color: white;
+}
+
+.settings-tab-btn.active {
+    background: linear-gradient(90deg, #22C55E, #16A34A);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.20);
+}
+
+.settings-tab-btn.danger-tab.active {
+    background: linear-gradient(90deg, #EF4444, #B91C1C);
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.20);
+}
+
+.settings-sidebar-divider {
+    height: 1px;
+    background: rgba(148, 163, 184, 0.15);
+    margin: 8px 0;
+}
+
+.settings-sidebar-link {
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.settings-sidebar-link:hover {
+    color: #22C55E;
+    background: rgba(34, 197, 94, 0.08);
+}
+
+.settings-tab {
+    display: none;
+}
+
+.settings-tab.active {
+    display: block;
+}
+
+@media (max-width: 900px) {
+    .settings-page {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-sidebar {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}

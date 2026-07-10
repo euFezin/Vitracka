@@ -2,9 +2,37 @@
 
 Este arquivo documenta problemas conhecidos encontrados durante o desenvolvimento da versão **v0.4 Alpha** do Vitracka.
 
+## Bug #003 - Desalinhamento no campo de interação da Vix AI
+
+**Status:** Aberto
+
+**Versão afetada:** v0.4 Alpha
+
+**Prioridade:** Baixa
+
+## Descrição
+
+O campo de texto e o botão de envio da seção "Vix AI" apresentam um pequeno desalinhamento visual em determinadas situações, comprometendo o acabamento da interface.
+
+## Impacto
+
+Pequena inconsistência visual;
+Não interfere no envio das mensagens nem no funcionamento do chat.
+
+## Possível causa
+
+Possível conflito entre regras de alinhamento do Flexbox, alturas dos componentes (`input` e `button`) ou estilos globais aplicados aos formulários.
+
+## Correção planejada
+
+* Revisar o alinhamento do formulário da Vix AI;
+* Padronizar altura entre campo de texto e botão;
+* Revisar estilos globais de inputs e botões;
+* Validar o comportamento em diferentes resoluções.
+
 ---
 
-## Bug #001 - Erro em função de gerar outra recomendação alimentar
+## Bug #002 - Erro em função de gerar outra recomendação alimentar
 
 **Status:** Corrigido
 
@@ -37,13 +65,13 @@ O erro estava relacionado à quantidade máxima de tokens utilizada pelo modelo 
 ---
 ---
 
-## Bug #002 - Instabilidade no posicionamento da navbar
+## Bug #001 - Instabilidade no posicionamento da navbar
 
 **Status:** Aberto
 
 **Versão afetada:** v0.4 Alpha
 
-**Prioridade:** Média
+**Prioridade:** Baixa
 
 ## Descrição
 
