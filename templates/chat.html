@@ -294,7 +294,7 @@ form.addEventListener("submit", async function (e) {
     mostrarDigitando();
 
     try {
-        const response = await fetch("/api/chat", {
+        const response = await fetch("/chat/mensagem", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

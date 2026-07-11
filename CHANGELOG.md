@@ -2,6 +2,29 @@
 
 Histórico de alterações e melhorias realizadas no projeto.
 
+## [0.5.2-alpha] - 2026-07-11
+
+**Status:** Publicada
+
+### Adicionado
+
+* Criação de rotas de API para disponibilização dos recursos do Vitracka, permitindo a comunicação entre o backend e futuras aplicações clientes.
+* Implementação da estrutura inicial de endpoints preparados para integração com o aplicativo mobile.
+* Preparação da arquitetura da aplicação para suportar múltiplas interfaces de acesso, mantendo o backend independente do frontend.
+
+### Melhorado
+
+* Evolução da organização das rotas da aplicação, separando funcionalidades web e APIs de forma mais clara.
+* Ajustes na estrutura do backend visando maior escalabilidade e facilitando a expansão do Vitracka para novas plataformas.
+* Melhor preparação da camada de dados e serviços para consumo externo através de requisições HTTP.
+
+### Corrigido
+
+* Ajustes internos na organização dos módulos de rotas.
+* Correções estruturais relacionadas à separação de responsabilidades entre páginas web e serviços da API.
+
+---
+
 ## [0.5.1-alpha] - 2026-07-10
 
 **Status:** Publicada

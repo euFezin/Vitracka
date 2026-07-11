@@ -18,6 +18,7 @@ Atualmente em fase de MVP e recebendo melhorias contínuas.
 - [x] Login e autenticação
 - [x] Implementação de Política e Privacidade
 - [x] Página de configurações de conta
+- [x] Implementação de rotas de API para aplicação mobile
 - [ ] Implementação de um Mascote para o aplicativo
 - [ ] Dashboard de métricas
 - [ ] Exportar plano (dieta + treino) em PDF

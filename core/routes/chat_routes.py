@@ -66,7 +66,7 @@ def nova_conversa():
     return jsonify({"conversation_id": conversa.id, "title": conversa.title})
 
 
-@chat_bp.route("/api/chat", methods=["POST"])
+@chat_bp.route("/chat/mensagem", methods=["POST"])
 @login_required
 def api_chat():
     data = request.get_json()
