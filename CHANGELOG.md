@@ -2,9 +2,30 @@
 
 Histórico de alterações e melhorias realizadas no projeto.
 
-## [0.5.0-alpha] - 2026-07-10
+## [0.5.1-alpha] - 2026-07-10
 
-**Status:** Em desenvolvimento
+**Status:** Publicada
+
+### Adicionado
+- Implementação do histórico de conversas da IA Vix, permitindo acessar, continuar e gerenciar chats anteriores.
+
+### Melhorado
+- Reformulação completa da interface da IA Vix, proporcionando uma experiência de conversa mais moderna, organizada e intuitiva.
+- Redesign da página de chat com a adição de uma barra lateral para gerenciamento das conversas.
+- Refatoração da estrutura da aplicação com a modularização das rotas, tornando o código mais organizado, escalável e de fácil manutenção.
+- Refatoração do arquivo principal da aplicação (`app.py`), reduzindo sua complexidade e preparando a base para futuras funcionalidades.
+- Ajustes gerais na arquitetura do projeto visando facilitar a evolução e manutenção do Vitracka.
+
+### Corrigido
+- Correções de layout e alinhamento na interface do chat.
+- Ajustes na organização dos componentes da página de conversas.
+- Correções internas relacionadas à navegação e estrutura das rotas.
+
+---
+
+## [0.5.0-alpha] - 2026-07-09
+
+**Status:** Publicada
 
 ### Adicionado
 - Implementação do sistema de geração de treinos personalizados utilizando Inteligência Artificial.

@@ -2,7 +2,7 @@
     <div class="header-inner">
 
         <div class="header-logo">
-            <a href="{{ url_for('dashboard') }}" class="logo-link">
+            <a href="{{ url_for('dashboard.dashboard') }}" class="logo-link">
                 <img src="{{ url_for('static', filename='images/Vitracka.png') }}" alt="Vitracka">
                 <span>Vitracka</span>
             </a>
@@ -12,50 +12,50 @@
 
             {% if current_user.is_authenticated %}
 
-                <a href="{{ url_for('dashboard') }}"
+                <a href="{{ url_for('dashboard.dashboard') }}"
                    class="{% if active_page == 'dashboard' %}active{% endif %}">
                     Dashboard
                 </a>
 
-                <a href="{{ url_for('refeicoes') }}"
+                <a href="{{ url_for('nutricao.refeicoes') }}"
                    class="{% if active_page == 'refeicoes' %}active{% endif %}">
                     Minha Dieta
                 </a>
 
-                <a href="{{ url_for('check_in') }}"
+                <a href="{{ url_for('checkin.check_in') }}"
                    class="{% if active_page == 'checkin' %}active{% endif %}">
                     Check-in
                 </a>
 
-                <a href="{{ url_for('chat') }}"
+                <a href="{{ url_for('chat.chat') }}"
                    class="ai-btn {% if active_page == 'chat' %}active{% endif %}">
                     ✦ Vix AI
                 </a>
 
-                <a href="{{ url_for('configuracoes') }}"
+                <a href="{{ url_for('configuracoes.configuracoes') }}"
                     class="{% if active_page == 'configuracoes' %}active{% endif %}">
                         Configurações
                 </a>
 
-                <a href="{{ url_for('logout') }}">
+                <a href="{{ url_for('auth.logout') }}">
                     Sair
                 </a>
 
             {% else %}
 
-                <a href="{{ url_for('features') }}"
+                <a href="{{ url_for('institucional.features') }}"
                    class="{% if active_page == 'features' %}active{% endif %}">
                     Funcionalidades
                 </a>
-                <a href="{{ url_for('cadastro') }}">
+                <a href="{{ url_for('auth.cadastro') }}">
                     Começar
                 </a>
-                <a href="{{ url_for('support') }}"
+                <a href="{{ url_for('institucional.support') }}"
                    class="{% if active_page == 'support' %}active{% endif %}">
                     Suporte
                 </a>
 
-                <a class="ai-btn" href="{{ url_for('login') }}">
+                <a class="ai-btn" href="{{ url_for('auth.login') }}">
                     ✦ Vix AI
                 </a>
 

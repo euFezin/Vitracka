@@ -11,78 +11,103 @@
 </head>
 <body class="chat-page">
     {% include 'components/navbar.html' %}
- 
-<div class="chat-wrapper">
 
- 
-    <div class="chat-messages" id="chat-messages">
- 
-        {% if not historico %}
-        <div class="chat-empty">
-            <div class="chat-empty-icon">🥗</div>
-            <p>Pergunte qualquer coisa sobre nutrição,<br>macros ou estratégia alimentar.</p>
+<div class="chat-layout">
+
+    <aside class="chat-sidebar" id="chat-sidebar">
+        <button class="btn-nova-conversa" id="btn-nova-conversa">
+            + Nova conversa
+        </button>
+
+        <div class="conversas-lista" id="conversas-lista">
+            {% for c in conversas %}
+            <div class="conversa-item {% if conversa_ativa and c.id == conversa_ativa.id %}active{% endif %}"
+                 data-id="{{ c.id }}">
+                <span class="conversa-titulo" onclick="abrirConversa({{ c.id }})">{{ c.title }}</span>
+                <button class="btn-excluir-conversa" onclick="excluirConversa({{ c.id }}, event)" title="Excluir conversa">
+                    &times;
+                </button>
+            </div>
+            {% endfor %}
         </div>
-        {% endif %}
- 
-        {% for msg in historico %}
- 
-            {% if msg.role == 'user' %}
-            <div class="message-row user">
-                <div class="avatar user-av">Eu</div>
-                <div class="bubble user">{{ msg.content }}</div>
-            </div>
-            {% else %}
-            <div class="message-row">
-                <div class="avatar vix">✦</div>
-                <div class="bubble vix">{{ msg.content }}</div>
-            </div>
-            {% endif %}
- 
-        {% endfor %}
- 
-    </div>
- 
-    <div class="chat-input-area">
-        <form method="POST" id="chat-form">
-            <div class="input-glow-wrapper">
-                <div class="input-inner">
-                    <textarea
-                        name="pergunta"
-                        id="pergunta"
-                        placeholder="Pergunte sobre dieta, macros, bulking…"
-                        rows="1"
-                        required
-                    >>{{ prefill }}</textarea>
-                    <button type="submit" class="btn-send" id="btn-send">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
-                        </svg>
-                    </button>
+    </aside>
+
+    <div class="chat-wrapper">
+        <div class="chat-inner">
+            <div class="chat-messages" id="chat-messages">
+
+                {% if not mensagens %}
+                <div class="chat-empty" id="chat-empty">
+                    <div class="chat-empty-icon">🥗</div>
+                    <p>Pergunte qualquer coisa sobre nutrição,<br>macros ou estratégia alimentar.</p>
                 </div>
+                {% endif %}
+
+                {% for msg in mensagens %}
+
+                    {% if msg.role == 'user' %}
+                    <div class="message-row user">
+                        <div class="avatar user-av">Eu</div>
+                        <div class="bubble user">{{ msg.content }}</div>
+                    </div>
+                    {% else %}
+                    <div class="message-row">
+                        <div class="avatar vix">✦</div>
+                        <div class="bubble vix">{{ msg.content }}</div>
+                    </div>
+                    {% endif %}
+
+                {% endfor %}
+
             </div>
-            <p class="input-hint">Vix responde apenas dúvidas sobre nutrição e dieta.</p>
-        </form>
+        </div>
+        
+        <div class="chat-input-area">
+            <form method="POST" id="chat-form">
+                <div class="input-glow-wrapper">
+                    <div class="input-inner">
+                        <textarea
+                            name="pergunta"
+                            id="pergunta"
+                            placeholder="Pergunte sobre dieta, macros, bulking…"
+                            rows="1"
+                            required
+                        ></textarea>
+                        <button type="submit" class="btn-send" id="btn-send">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="input-hint">Vix responde apenas dúvidas sobre nutrição e dieta.</p>
+            </form>
+        </div>
+
     </div>
- 
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
+let conversaAtualId = {{ conversa_ativa.id if conversa_ativa else 'null' }};
+
 const messages = document.getElementById("chat-messages");
+const chatEmpty = document.getElementById("chat-empty");
 const form = document.getElementById("chat-form");
 const textarea = document.getElementById("pergunta");
 const btn = document.getElementById("btn-send");
+const listaConversas = document.getElementById("conversas-lista");
+const btnNovaConversa = document.getElementById("btn-nova-conversa");
 
 messages.scrollTop = messages.scrollHeight;
 
-// Auto resize
 textarea.addEventListener("input", function () {
     this.style.height = "auto";
     this.style.height = Math.min(this.scrollHeight, 140) + "px";
 });
 
-// Enter envia / Shift+Enter quebra linha
 textarea.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -94,26 +119,26 @@ function scrollBottom() {
     messages.scrollTop = messages.scrollHeight;
 }
 
+function esconderEstadoVazio() {
+    if (chatEmpty) chatEmpty.remove();
+}
+
+function limparMensagens() {
+    messages.innerHTML = "";
+}
+
 function adicionarMensagem(texto, tipo) {
+    esconderEstadoVazio();
 
     const row = document.createElement("div");
-    row.className = tipo === "user"
-        ? "message-row user"
-        : "message-row";
+    row.className = tipo === "user" ? "message-row user" : "message-row";
 
     const avatar = document.createElement("div");
-    avatar.className = tipo === "user"
-        ? "avatar user-av"
-        : "avatar vix";
-
-    avatar.textContent = tipo === "user"
-        ? "Eu"
-        : "✦";
+    avatar.className = tipo === "user" ? "avatar user-av" : "avatar vix";
+    avatar.textContent = tipo === "user" ? "Eu" : "✦";
 
     const bubble = document.createElement("div");
-    bubble.className = tipo === "user"
-        ? "bubble user"
-        : "bubble vix";
+    bubble.className = tipo === "user" ? "bubble user" : "bubble vix";
 
     if (tipo === "assistant") {
         bubble.innerHTML = marked.parse(texto);
@@ -123,102 +148,181 @@ function adicionarMensagem(texto, tipo) {
 
     row.appendChild(avatar);
     row.appendChild(bubble);
-
     messages.appendChild(row);
-
     scrollBottom();
 
     return bubble;
 }
 
 function mostrarDigitando() {
-
     const row = document.createElement("div");
     row.className = "message-row";
     row.id = "typing";
-
     row.innerHTML = `
         <div class="avatar vix">✦</div>
-
         <div class="bubble vix typing-bubble">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </div>
     `;
-
     messages.appendChild(row);
-
     scrollBottom();
 }
 
 function removerDigitando() {
-
     const typing = document.getElementById("typing");
-
-    if (typing)
-        typing.remove();
+    if (typing) typing.remove();
 }
 
-form.addEventListener("submit", async function (e) {
+function marcarConversaAtiva(id) {
+    document.querySelectorAll(".conversa-item").forEach(item => {
+        item.classList.toggle("active", parseInt(item.dataset.id) === id);
+    });
+}
 
-    e.preventDefault();
+function adicionarConversaNaSidebar(id, title) {
+    const item = document.createElement("div");
+    item.className = "conversa-item active";
+    item.dataset.id = id;
+    item.innerHTML = `
+        <span class="conversa-titulo" onclick="abrirConversa(${id})">${title}</span>
+        <button class="btn-excluir-conversa" onclick="excluirConversa(${id}, event)" title="Excluir conversa">&times;</button>
+    `;
+    listaConversas.prepend(item);
+    marcarConversaAtiva(id);
+}
 
-    const pergunta = textarea.value.trim();
+function atualizarTituloConversa(id, title) {
+    const item = document.querySelector(`.conversa-item[data-id="${id}"] .conversa-titulo`);
+    if (item) item.textContent = title;
+}
 
-    if (!pergunta)
-        return;
-
-    adicionarMensagem(pergunta, "user");
-
-    textarea.value = "";
-    textarea.style.height = "auto";
-
-    btn.disabled = true;
-
-    mostrarDigitando();
+async function abrirConversa(id) {
+    if (id === conversaAtualId) return;
 
     try {
-
-        const response = await fetch("/api/chat", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                pergunta
-            })
-
-        });
+        const response = await fetch(`/chat/${id}/mensagens`);
+        if (!response.ok) throw new Error();
 
         const data = await response.json();
 
-        removerDigitando();
+        conversaAtualId = id;
+        limparMensagens();
 
+        if (data.mensagens.length === 0) {
+            messages.innerHTML = `
+                <div class="chat-empty" id="chat-empty">
+                    <div class="chat-empty-icon">🥗</div>
+                    <p>Pergunte qualquer coisa sobre nutrição,<br>macros ou estratégia alimentar.</p>
+                </div>
+            `;
+        } else {
+            data.mensagens.forEach(m => adicionarMensagem(m.content, m.role));
+        }
+
+        marcarConversaAtiva(id);
+        textarea.focus();
+
+    } catch {
+        alert("Não foi possível abrir essa conversa.");
+    }
+}
+
+async function excluirConversa(id, event) {
+    event.stopPropagation();
+
+    if (!confirm("Excluir esta conversa? Essa ação não pode ser desfeita.")) return;
+
+    try {
+        await fetch(`/chat/${id}/excluir`, { method: "POST" });
+
+        const item = document.querySelector(`.conversa-item[data-id="${id}"]`);
+        if (item) item.remove();
+
+        if (id === conversaAtualId) {
+            const proxima = document.querySelector(".conversa-item");
+            if (proxima) {
+                abrirConversa(parseInt(proxima.dataset.id));
+            } else {
+                conversaAtualId = null;
+                limparMensagens();
+                messages.innerHTML = `
+                    <div class="chat-empty" id="chat-empty">
+                        <div class="chat-empty-icon">🥗</div>
+                        <p>Pergunte qualquer coisa sobre nutrição,<br>macros ou estratégia alimentar.</p>
+                    </div>
+                `;
+            }
+        }
+
+    } catch {
+        alert("Não foi possível excluir essa conversa.");
+    }
+}
+
+btnNovaConversa.addEventListener("click", async function () {
+    try {
+        const response = await fetch("/chat/nova", { method: "POST" });
+        const data = await response.json();
+
+        conversaAtualId = data.conversation_id;
+        limparMensagens();
+        messages.innerHTML = `
+            <div class="chat-empty" id="chat-empty">
+                <div class="chat-empty-icon">🥗</div>
+                <p>Pergunte qualquer coisa sobre nutrição,<br>macros ou estratégia alimentar.</p>
+            </div>
+        `;
+
+        adicionarConversaNaSidebar(data.conversation_id, data.title);
+        textarea.focus();
+
+    } catch {
+        alert("Não foi possível criar uma nova conversa.");
+    }
+});
+
+form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const pergunta = textarea.value.trim();
+    if (!pergunta) return;
+
+    adicionarMensagem(pergunta, "user");
+    textarea.value = "";
+    textarea.style.height = "auto";
+    btn.disabled = true;
+    mostrarDigitando();
+
+    try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                pergunta,
+                conversation_id: conversaAtualId
+            })
+        });
+
+        const data = await response.json();
+        removerDigitando();
         adicionarMensagem(data.answer, "assistant");
 
-    }
+        if (!conversaAtualId) {
+            conversaAtualId = data.conversation_id;
+            adicionarConversaNaSidebar(data.conversation_id, data.title);
+        } else {
+            atualizarTituloConversa(data.conversation_id, data.title);
+        }
 
-    catch {
-
+    } catch {
         removerDigitando();
-
-        adicionarMensagem(
-            "Erro ao conversar com a Vix.",
-            "assistant"
-        );
-
+        adicionarMensagem("Erro ao conversar com a Vix.", "assistant");
     }
 
     btn.disabled = false;
-
     textarea.focus();
-
 });
 </script>
- 
+
 </body>
 </html>

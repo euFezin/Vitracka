@@ -87,7 +87,7 @@
         <div class="cta-inner">
             <h2>Quer ver o Vitracka em ação?</h2>
             <p>Monte seu plano em menos de 2 minutos.</p>
-            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('cadastro') }}" class="btn-hero">
+            <a href="{{ url_for('dashboard.dashboard') if current_user.is_authenticated else url_for('auth.cadastro') }}" class="btn-hero">
                 Começar agora
                 <span class="btn-hero-arrow">→</span>
             </a>
@@ -102,9 +102,9 @@
             </div>
 
             <div class="footer-center">
-                <a href="{{ url_for('about') }}">Sobre</a>
-                <a href="{{ url_for('privacy') }}">Política de Privacidade</a>
-                <a href="{{ url_for('support') }}">Suporte</a>
+                <a href="{{ url_for('institucional.about') }}">Sobre</a>
+                <a href="{{ url_for('institucional.privacy') }}">Política de Privacidade</a>
+                <a href="{{ url_for('institucional.support') }}">Suporte</a>
             </div>
 
             <div class="footer-right">

@@ -4,9 +4,10 @@ Este arquivo documenta problemas conhecidos encontrados durante o desenvolviment
 
 ## Bug #003 - Desalinhamento no campo de interação da Vix AI
 
-**Status:** Aberto
+**Status:** Corrigido
 
-**Versão afetada:** v0.4 Alpha
+**Versão afetada:** v0.5.0 Alpha
+**Versão corrigida:** v0.5.1 Alpha
 
 **Prioridade:** Baixa
 
@@ -67,9 +68,10 @@ O erro estava relacionado à quantidade máxima de tokens utilizada pelo modelo 
 
 ## Bug #001 - Instabilidade no posicionamento da navbar
 
-**Status:** Aberto
+**Status:** Corrigido
 
 **Versão afetada:** v0.4 Alpha
+**Versão corrigida:** v0.5.1 Alpha
 
 **Prioridade:** Baixa
 

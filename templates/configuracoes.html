@@ -23,8 +23,8 @@
 
         <div class="settings-sidebar-divider"></div>
 
-        <a href="{{ url_for('privacy') }}" class="settings-sidebar-link">Política de Privacidade</a>
-        <a href="{{ url_for('support') }}" class="settings-sidebar-link">Suporte</a>
+        <a href="{{ url_for('institucional.privacy') }}" class="settings-sidebar-link">Política de Privacidade</a>
+        <a href="{{ url_for('institucional.support') }}" class="settings-sidebar-link">Suporte</a>
     </aside>
 
     <div class="settings-content">
@@ -33,7 +33,7 @@
             <h3>Perfil</h3>
             <p class="muted">Seu nome e e-mail de acesso.</p>
 
-            <form method="POST" action="{{ url_for('configuracoes_perfil') }}" class="settings-form">
+            <form method="POST" action="{{ url_for('configuracoes.configuracoes_perfil') }}" class="settings-form">
                 <label>Nome</label>
                 <input type="text" name="nome" value="{{ current_user.name }}" required>
 
@@ -48,7 +48,7 @@
             <h3>Segurança</h3>
             <p class="muted">Altere sua senha de acesso.</p>
 
-            <form method="POST" action="{{ url_for('configuracoes_senha') }}" class="settings-form">
+            <form method="POST" action="{{ url_for('configuracoes.configuracoes_senha') }}" class="settings-form">
                 <label>Senha atual</label>
                 <input type="password" name="senha_atual" required>
 
@@ -72,7 +72,7 @@
                 {% endif %}
             </p>
 
-            <form method="POST" action="{{ url_for('configuracoes_fisico') }}" class="settings-form">
+            <form method="POST" action="{{ url_for('configuracoes.configuracoes_fisico') }}" class="settings-form">
 
                 <div class="settings-grid">
 
@@ -137,7 +137,7 @@
                 treinos e check-ins — serão apagados e não poderão ser recuperados.
             </p>
 
-            <form method="POST" action="{{ url_for('configuracoes_excluir_conta') }}"
+            <form method="POST" action="{{ url_for('configuracoes.configuracoes_excluir_conta') }}"
                   class="settings-form"
                   onsubmit="return confirm('Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.');">
                 <label>Confirme sua senha</label>

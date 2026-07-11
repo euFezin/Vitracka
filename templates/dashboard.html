@@ -27,7 +27,7 @@
                     <span class="date-full">{{ today.strftime('%a') }},<br>{{ today.strftime('%B') }}</span>
                 </div>
 
-                <a href="{{ url_for('check_in') }}" class="button-link">Novo Check-in</a>
+                <a href="{{ url_for('checkin.check_in') }}" class="button-link">Novo Check-in</a>
                 
             </div>
         </section>
@@ -111,10 +111,10 @@
                     </p>
                 {% endif %}
 
-                <a href="{{ url_for('check_in') }}" class="small-button">
+                <a href="{{ url_for('checkin.check_in') }}" class="small-button">
                     Atualizar progresso
                 </a>
-                <a href="{{ url_for('objetivo') }}" class="secondary-button">
+                <a href="{{ url_for('onboarding.objetivo') }}" class="secondary-button">
                     Alterar plano
                 </a>
             </section>
@@ -171,7 +171,7 @@
                     </div>
                 {% else %}
                     <p class="muted">Você ainda não escolheu um plano nutricional.</p>
-                    <a href="{{ url_for('dashboard') }}" class="small-button">Definir plano</a>
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="small-button">Definir plano</a>
                 {% endif %}
             </section>
 
@@ -180,12 +180,12 @@
                 <p class="muted">Oi, {{ current_user.name.split(' ')[0] }}! Como posso ajudar?</p>
 
                 <div class="ai-quick-actions">
-                    <a href="{{ url_for('chat', pergunta='Monte um plano de refeições para hoje') }}" class="ai-chip">Gerar plano</a>
-                    <a href="{{ url_for('chat', pergunta='Me dê dicas de treino') }}" class="ai-chip">Dicas de treino</a>
-                    <a href="{{ url_for('chat', pergunta='Analise meu progresso') }}" class="ai-chip">Analisar progresso</a>
+                    <a href="{{ url_for('chat.chat', pergunta='Monte um plano de refeições para hoje') }}" class="ai-chip">Gerar plano</a>
+                    <a href="{{ url_for('chat.chat', pergunta='Me dê dicas de treino') }}" class="ai-chip">Dicas de treino</a>
+                    <a href="{{ url_for('chat.chat', pergunta='Analise meu progresso') }}" class="ai-chip">Analisar progresso</a>
                 </div>
 
-                <form action="{{ url_for('chat') }}" method="GET" class="ai-quick-input">
+                <form action="{{ url_for('chat.chat') }}" method="GET" class="ai-quick-input">
                     <input type="text" name="pergunta" placeholder="Pergunte algo...">
                     <button type="submit">➤</button>
                 </form>
@@ -199,14 +199,14 @@
                         <pre class="workout-content">{{ workout.content }}</pre>
                     </div>
 
-                    <a href="{{ url_for('treino') }}" class="small-button">
-                        Gerar treino
-                    </a>
                 {% else %}
                     <p class="muted">
                         Você ainda não possui um treino gerado.
                     </p>
                 {% endif %}
+                    <a href="{{ url_for('treino.treino') }}" class="small-button">
+                        Gerar treino
+                    </a>
             </section>
 
             <section class="platform-card meals-card">
@@ -232,7 +232,7 @@
                     </p>
                 {% endif %}
 
-                <a href="{{ url_for('refeicoes') }}" class="small-button">
+                <a href="{{ url_for('nutricao.refeicoes') }}" class="small-button">
                     Ver Refeições
                 </a>
             </section>
