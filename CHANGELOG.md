@@ -2,6 +2,27 @@
 
 Histórico de alterações e melhorias realizadas no projeto.
 
+## [0.5.3-alpha] - 2026-07-12
+
+**Status:** Publicada
+
+### Adicionado
+
+* Novo model `DailyTracker`, permitindo o registro diário de consumo de água e horas de sono por usuário, com estrutura já preparada para inclusão futura de contagem de passos.
+* Novos endpoints de API para o tracker diário: consulta do registro do dia atual, atualização de água, atualização de sono e histórico com cálculo de médias (diária, semanal e mensal).
+* Migration de banco de dados para a nova tabela `daily_trackers`, com restrição de unicidade por usuário e data.
+
+### Melhorado
+
+* Cálculo de médias de consumo de água e sono realizado diretamente no backend, evitando processamento adicional no lado do cliente.
+* Consulta do tracker diário já retorna (ou cria automaticamente) o registro do dia corrente, simplificando o consumo por aplicações clientes.
+
+### Corrigido
+
+* Nenhuma correção relevante nesta versão.
+
+---
+
 ## [0.5.2-alpha] - 2026-07-11
 
 **Status:** Publicada

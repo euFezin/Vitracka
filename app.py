@@ -27,6 +27,7 @@ from core.routes.chat_routes import chat_bp
 from core.routes.api_chat import api_chat_bp
 from core.routes.configuracoes import configuracoes_bp
 from core.routes.api_configuracoes import api_configuracoes_bp
+from core.routes.api_tracker import api_tracker_bp
 from core.models import User, db
 
 load_dotenv()
@@ -85,6 +86,7 @@ app.register_blueprint(chat_bp)
 app.register_blueprint(api_chat_bp)
 app.register_blueprint(configuracoes_bp)
 app.register_blueprint(api_configuracoes_bp)
+app.register_blueprint(api_tracker_bp)
 
 @login_manager.user_loader
 def load_user(user_id):

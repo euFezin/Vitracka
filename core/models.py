@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
@@ -150,3 +150,22 @@ class ChatMessage(db.Model):
     role = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+class DailyTracker(db.Model):
+    __tablename__ = "daily_trackers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, index=True)
+    date = db.Column(db.Date, nullable=False, default=date.today)
+    water_ml = db.Column(db.Integer, nullable=False, default=0)
+    steps = db.Column(db.Integer, nullable=False, default=0)
+    sleep_hours = db.Column(db.Float, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+    )
+
+    __table_args__ = (db.UniqueConstraint("user_id", "date", name="uq_user_date"),)
