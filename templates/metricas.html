@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Métricas - Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/plataforma.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/metricas.css') }}">
+</head>
+<body>
+
+    {% include 'components/navbar.html' %}
+
+    <div class="container">
+
+        <section class="dash-header">
+            <div class="dash-header-text">
+                <p class="eyebrow">Acompanhamento</p>
+                <h2>Suas métricas</h2>
+            </div>
+
+            <a href="{{ url_for('dashboard.dashboard') }}" class="secondary-button">
+                Voltar ao dashboard
+            </a>
+        </section>
+
+        <div class="metricas-grid">
+
+            <section class="platform-card metrica-card">
+                <h3>💧 Água</h3>
+                <div class="metrica-row">
+                    <div class="metrica-item">
+                        <span class="metrica-label">Diária</span>
+                        <span class="metrica-value">{{ medias.agua.diaria if medias.agua.diaria else '--' }} ml</span>
+                    </div>
+                    <div class="metrica-item">
+                        <span class="metrica-label">Semanal</span>
+                        <span class="metrica-value">{{ medias.agua.semanal if medias.agua.semanal else '--' }} ml</span>
+                    </div>
+                    <div class="metrica-item">
+                        <span class="metrica-label">Mensal</span>
+                        <span class="metrica-value">{{ medias.agua.mensal if medias.agua.mensal else '--' }} ml</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="platform-card metrica-card">
+                <h3>🌙 Sono</h3>
+                <div class="metrica-row">
+                    <div class="metrica-item">
+                        <span class="metrica-label">Diária</span>
+                        <span class="metrica-value">{{ medias.sono.diaria if medias.sono.diaria else '--' }} h</span>
+                    </div>
+                    <div class="metrica-item">
+                        <span class="metrica-label">Semanal</span>
+                        <span class="metrica-value">{{ medias.sono.semanal if medias.sono.semanal else '--' }} h</span>
+                    </div>
+                    <div class="metrica-item">
+                        <span class="metrica-label">Mensal</span>
+                        <span class="metrica-value">{{ medias.sono.mensal if medias.sono.mensal else '--' }} h</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <section class="platform-card section-block">
+            <h3>Histórico (últimos 30 dias)</h3>
+
+            {% if registros %}
+                <div class="timeline-list">
+                    {% for r in registros %}
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-top">
+                                    <strong>{{ r.date.strftime('%d/%m/%Y') }}</strong>
+                                </div>
+                                <div class="timeline-meta">
+                                    <span>💧 {{ r.water_ml }} ml</span>
+                                    {% if r.sleep_hours %}
+                                        <span> · 🌙 {{ r.sleep_hours }} h</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="muted">Ainda não há registros de água ou sono.</p>
+            {% endif %}
+        </section>
+
+    </div>
+
+</body>
+</html>

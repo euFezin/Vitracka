@@ -1,0 +1,40 @@
+.metricas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.metrica-card {
+    min-height: auto;
+}
+
+.metrica-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.metrica-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.metrica-label {
+    color: #94A3B8;
+    font-size: 13px;
+}
+
+.metrica-value {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .metricas-grid {
+        grid-template-columns: 1fr;
+    }
+}

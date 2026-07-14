@@ -1,7 +1,7 @@
 from flask import session
 from flask_login import current_user
 
-from core.models import Goal, NutritionPlan, PhysicalProfile, MealSuggestion, ProgressCheckIn, WorkoutPlan
+from core.models import Goal, NutritionPlan, PhysicalProfile, MealSuggestion, ProgressCheckIn, WorkoutPlan, DailyTracker, db
 from datetime import date
 
 
@@ -149,3 +149,14 @@ def montar_dados_dashboard(user_id):
         "remaining_weight": remaining_weight,
         "streak": streak,
     }
+
+def get_or_create_daily_tracker(user_id):
+    hoje = date.today()
+    tracker = DailyTracker.query.filter_by(user_id=user_id, date=hoje).first()
+
+    if not tracker:
+        tracker = DailyTracker(user_id=user_id, date=hoje, water_ml=0, steps=0, sleep_hours=None)
+        db.session.add(tracker)
+        db.session.commit()
+
+    return tracker

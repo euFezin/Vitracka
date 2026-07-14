@@ -61,22 +61,26 @@
                 <span class="stat-soon">Em breve</span>
             </div>
 
-            <div class="stat-card disabled">
+            <div class="stat-card" id="sono-card">
                 <div class="stat-top">
                     <span class="stat-label">Sono</span>
                     <span class="stat-icon">🌙</span>
                 </div>
-                <span class="stat-value">--</span>
-                <span class="stat-soon">Em breve</span>
+                <span class="stat-value" id="sono-valor">{{ tracker.sleep_hours if tracker.sleep_hours else '--' }}{% if tracker.sleep_hours %}h{% endif %}</span>
+                <input type="number" step="0.5" min="0" max="24" placeholder="Horas" class="stat-input" id="sono-input" value="{{ tracker.sleep_hours or '' }}">
             </div>
 
-            <div class="stat-card disabled">
+            <div class="stat-card" id="agua-card">
                 <div class="stat-top">
                     <span class="stat-label">Água</span>
                     <span class="stat-icon">💧</span>
                 </div>
-                <span class="stat-value">--</span>
-                <span class="stat-soon">Em breve</span>
+                <span class="stat-value" id="agua-valor">{{ tracker.water_ml }}ml</span>
+                <div class="stat-actions">
+                    <button type="button" class="stat-mini-btn" onclick="ajustarAgua(250)">+250</button>
+                    <button type="button" class="stat-mini-btn" onclick="ajustarAgua(500)">+500</button>
+                    <button type="button" class="stat-mini-btn stat-mini-btn-reset" onclick="resetarAgua()">↺</button>
+                </div>
             </div>
 
         </div>
@@ -116,6 +120,9 @@
                 </a>
                 <a href="{{ url_for('onboarding.objetivo') }}" class="secondary-button">
                     Alterar plano
+                </a>
+                <a href="{{ url_for('tracker.metricas') }}" class="secondary-button">
+                    Ver métricas
                 </a>
             </section>
 
@@ -273,6 +280,45 @@
         </section>
 
     </div>
+
+    <script>
+        let aguaAtual = {{ tracker.water_ml }};
+
+        async function ajustarAgua(delta) {
+            aguaAtual = Math.max(0, aguaAtual + delta);
+            document.getElementById('agua-valor').textContent = aguaAtual + 'ml';
+
+            await fetch("{{ url_for('tracker.atualizar_agua') }}", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ agua_ml: aguaAtual })
+            });
+        }
+
+        async function resetarAgua() {
+            aguaAtual = 0;
+            document.getElementById('agua-valor').textContent = '0ml';
+
+            await fetch("{{ url_for('tracker.atualizar_agua') }}", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ agua_ml: 0 })
+            });
+        }
+
+        document.getElementById('sono-input').addEventListener('change', async function () {
+            const horas = parseFloat(this.value);
+            if (isNaN(horas)) return;
+
+            await fetch("{{ url_for('tracker.atualizar_sono') }}", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ sono_horas: horas })
+            });
+
+            document.getElementById('sono-valor').textContent = horas + 'h';
+        });
+    </script>
 
 </body>
 </html>

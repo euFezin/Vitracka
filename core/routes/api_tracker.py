@@ -4,27 +4,16 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from core.models import DailyTracker, db
+from core.services import get_or_create_daily_tracker
 
 api_tracker_bp = Blueprint("api_tracker", __name__, url_prefix="/api")
-
-
-def _get_or_create_hoje(user_id):
-    hoje = date.today()
-    tracker = DailyTracker.query.filter_by(user_id=user_id, date=hoje).first()
-
-    if not tracker:
-        tracker = DailyTracker(user_id=user_id, date=hoje, water_ml=0, steps=0, sleep_hours=None)
-        db.session.add(tracker)
-        db.session.commit()
-
-    return tracker
 
 
 @api_tracker_bp.route("/tracker/hoje", methods=["GET"])
 @jwt_required()
 def api_tracker_hoje():
     user_id = int(get_jwt_identity())
-    tracker = _get_or_create_hoje(user_id)
+    tracker = get_or_create_daily_tracker(user_id)
 
     return jsonify({
         "data": tracker.date.isoformat(),
@@ -50,7 +39,7 @@ def api_tracker_agua():
     if agua_ml < 0:
         return jsonify({"erro": "O valor de agua nao pode ser negativo."}), 400
 
-    tracker = _get_or_create_hoje(user_id)
+    tracker = get_or_create_daily_tracker(user_id)
     tracker.water_ml = agua_ml
     db.session.commit()
 
@@ -74,11 +63,12 @@ def api_tracker_sono():
     if sono_horas < 0 or sono_horas > 24:
         return jsonify({"erro": "Horas de sono devem estar entre 0 e 24."}), 400
 
-    tracker = _get_or_create_hoje(user_id)
+    tracker = get_or_create_daily_tracker(user_id)
     tracker.sleep_hours = sono_horas
     db.session.commit()
 
     return jsonify({"sono_horas": tracker.sleep_hours}), 200
+
 
 @api_tracker_bp.route("/tracker/historico", methods=["GET"])
 @jwt_required()
