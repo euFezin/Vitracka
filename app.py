@@ -9,6 +9,7 @@ from flask_migrate import Migrate
 from sqlalchemy.engine import URL
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
+from core.extensions import limiter
 
 from core.routes.institucional import institucional_bp
 from core.routes.auth import auth_bp
@@ -36,6 +37,7 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "musculacao_Vitracka")
 
+limiter.init_app(app)
 
 @app.template_filter("from_json")
 def from_json_filter(value):

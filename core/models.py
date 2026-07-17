@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(255), nullable=False, unique=True, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    terms_accepted_at = db.Column(db.DateTime, nullable=True)
 
     profiles = db.relationship("PhysicalProfile", backref="user", lazy=True)
     goals = db.relationship("Goal", backref="user", lazy=True)

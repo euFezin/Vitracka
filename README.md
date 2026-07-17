@@ -17,6 +17,7 @@ Atualmente em fase de MVP e recebendo melhorias contínuas.
 - [x] Histórico de progresso
 - [x] Login e autenticação
 - [x] Implementação de Política e Privacidade
+- [x] Implementação de Termos de Uso
 - [x] Página de configurações de conta
 - [x] Implementação de rotas de API para aplicação mobile
 - [ ] Implementação de um Mascote para o aplicativo

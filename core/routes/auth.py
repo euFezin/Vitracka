@@ -1,5 +1,7 @@
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session
 from flask_login import current_user, login_user, logout_user
+from core.extensions import limiter
+from datetime import datetime
 
 from core.models import User, db
 
@@ -7,6 +9,7 @@ auth_bp = Blueprint("auth", __name__)
 
 
 @auth_bp.route("/cadastro", methods=["GET", "POST"])
+@limiter.limit("5 per minute")
 def cadastro():
     if current_user.is_authenticated:
         return redirect(url_for("dashboard.dashboard"))
@@ -15,6 +18,11 @@ def cadastro():
         name = request.form["nome"].strip()
         email = request.form["email"].strip().lower()
         password = request.form["senha"]
+        aceite_termos = request.form.get("aceite_termos")
+
+        if not aceite_termos:
+            flash("Voce precisa aceitar os Termos de Uso para se cadastrar.")
+            return redirect(url_for("auth.cadastro"))
 
         if User.query.filter_by(email=email).first():
             flash("Esse e-mail ja esta cadastrado. Entre na sua conta.")
@@ -22,6 +30,7 @@ def cadastro():
 
         user = User(name=name, email=email)
         user.set_password(password)
+        user.terms_accepted_at = datetime.utcnow()
         db.session.add(user)
         db.session.commit()
         login_user(user)
@@ -31,6 +40,7 @@ def cadastro():
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
+@limiter.limit("5 per minute")
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("dashboard.dashboard"))

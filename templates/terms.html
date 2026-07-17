@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos de Uso — Vitracka</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/Vitracka.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='paginas/institucional.css') }}">
+</head>
+<body class="landing-page">
+
+    {% include 'components/navbar.html' %}
+
+    <section class="page-hero">
+        <div class="page-hero-glow"></div>
+        <div class="page-hero-inner">
+            <span class="page-hero-label">Condições de uso</span>
+            <h1>Termos de <span>Uso</span></h1>
+            <p>
+                As regras que orientam o uso do Vitracka. Ao criar uma conta,
+                você concorda com o que está descrito aqui.
+            </p>
+            <span class="page-updated">Última atualização: julho de 2026</span>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-inner">
+
+            <h2>1. Aceitação dos termos</h2>
+            <p>
+                Ao criar uma conta no Vitracka, você declara ter lido, entendido
+                e concordado com estes Termos de Uso e com a nossa
+                <a href="{{ url_for('institucional.privacy') }}">Política de Privacidade</a>.
+                Se você não concordar com algum ponto, não deve utilizar a plataforma.
+            </p>
+
+            <h2>2. O que é o Vitracka</h2>
+            <p>
+                O Vitracka é uma plataforma de acompanhamento nutricional e de
+                treino que utiliza inteligência artificial para calcular metas
+                calóricas, sugerir planos alimentares, gerar treinos e responder
+                dúvidas através do assistente Vix AI.
+            </p>
+            <p>
+                O Vitracka está atualmente em <strong>fase alpha</strong>, em
+                desenvolvimento ativo. Funcionalidades podem mudar, ser removidas
+                ou apresentar instabilidades sem aviso prévio.
+            </p>
+
+            <h2>3. Isenção de responsabilidade médica</h2>
+            <p>
+                O Vitracka <strong>não substitui orientação médica, nutricional
+                ou de educação física profissional</strong>. Os cálculos de
+                calorias, macros, planos alimentares e treinos são gerados por
+                algoritmos e inteligência artificial, com base nos dados informados
+                por você, e têm caráter informativo e estimativo.
+            </p>
+            <p>
+                Antes de iniciar qualquer programa de dieta ou exercício,
+                especialmente se você possui alguma condição de saúde pré-existente,
+                consulte um médico, nutricionista ou profissional de educação física
+                qualificado. O uso das sugestões da plataforma é de sua exclusiva
+                responsabilidade.
+            </p>
+
+            <h2>4. Cadastro e conta</h2>
+            <p>
+                Você é responsável por manter a confidencialidade da sua senha e
+                por todas as atividades realizadas na sua conta. As informações
+                fornecidas no cadastro (nome, e-mail, dados físicos) devem ser
+                verdadeiras e atualizadas.
+            </p>
+            <p>
+                Você pode solicitar a exclusão da sua conta a qualquer momento
+                pela tela de Configurações. A exclusão remove seus dados
+                permanentemente, conforme descrito na Política de Privacidade.
+            </p>
+
+            <h2>5. Uso aceitável</h2>
+            <p>Ao usar o Vitracka, você concorda em não:</p>
+            <ul>
+                <li>Utilizar a plataforma para fins ilegais ou não autorizados;</li>
+                <li>Tentar acessar contas de outros usuários ou dados que não sejam seus;</li>
+                <li>Tentar explorar vulnerabilidades, sobrecarregar ou interferir no funcionamento da plataforma;</li>
+                <li>Utilizar o assistente Vix AI para gerar conteúdo fora do escopo de nutrição e treino, ou com intenção de abuso do serviço.</li>
+            </ul>
+
+            <h2>6. Inteligência artificial (Vix AI)</h2>
+            <p>
+                As respostas da Vix AI, os planos alimentares e os treinos gerados
+                são produzidos por modelos de inteligência artificial de terceiros.
+                Embora o Vitracka busque qualidade e coerência nas respostas, elas
+                podem eventualmente conter erros, imprecisões ou sugestões que não
+                se apliquem ao seu caso específico. Use o senso crítico e busque
+                orientação profissional quando necessário.
+            </p>
+
+            <h2>7. Disponibilidade do serviço</h2>
+            <p>
+                Por estar em fase alpha, o Vitracka pode apresentar
+                indisponibilidades, instabilidades ou manutenções sem aviso prévio.
+                Não garantimos disponibilidade contínua ou ausência de erros durante
+                esta fase de desenvolvimento.
+            </p>
+
+            <h2>8. Alterações nestes termos</h2>
+            <p>
+                Estes Termos de Uso podem ser atualizados conforme o Vitracka
+                evolui. Mudanças relevantes serão indicadas pela data de
+                "última atualização" no topo desta página.
+            </p>
+
+            <h2>9. Contato</h2>
+            <p>
+                Dúvidas sobre estes termos podem ser enviadas para
+                <a href="mailto:contato@vitracka.com">contato@vitracka.com</a>.
+            </p>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h2>Vitracka</h2>
+                <p>Seu progresso, sem enrolação.</p>
+            </div>
+
+            <div class="footer-center">
+                <a href="{{ url_for('institucional.about') }}">Sobre</a>
+                <a href="{{ url_for('institucional.privacy') }}">Política de Privacidade</a>
+                <a href="{{ url_for('institucional.terms') }}">Termos de Uso</a>
+                <a href="{{ url_for('institucional.support') }}">Suporte</a>
+            </div>
+
+            <div class="footer-right">
+                <span>Feito com foco em performance</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

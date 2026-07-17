@@ -38,6 +38,16 @@
             <label>Senha</label>
             <input type="password" name="senha" minlength="6" required>
 
+            <div class="terms-check">
+                <input type="checkbox" name="aceite_termos" id="aceite_termos" required>
+                <label for="aceite_termos" class="terms-label">
+                    Li e concordo com os
+                    <a href="{{ url_for('institucional.terms') }}" target="_blank">Termos de Uso</a>
+                    e a
+                    <a href="{{ url_for('institucional.privacy') }}" target="_blank">Política de Privacidade</a>
+                </label>
+            </div>
+
             <button type="submit">Cadastrar</button>
         </form>
 

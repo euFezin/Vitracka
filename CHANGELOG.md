@@ -2,6 +2,20 @@
 
 Histórico de alterações e melhorias realizadas no projeto.
 
+## [0.6.1-alpha] - 2026-07-17
+
+### Adicionado
+- Termos de Uso obrigatórios no cadastro: novos usuários agora precisam aceitar os Termos de Uso para concluir a criação da conta.
+- Página de Termos de Uso (/termos): documento acessível com as condições de utilização da plataforma.
+
+### Melhorado
+- Segurança da autenticação: implementado limite de 5 tentativas de login por minuto por usuário, reduzindo o risco de ataques de força bruta.
+
+### Corrigido
+- Nenhuma correção relevante nesta versão.
+
+<br>
+
 ## [0.6.0-alpha] - 2026-07-13
 
 ### Adicionado

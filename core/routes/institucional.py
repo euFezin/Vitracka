@@ -21,3 +21,7 @@ def support():
 @institucional_bp.route("/funcionalidades")
 def features():
     return render_template("features.html")
+
+@institucional_bp.route("/termos")
+def terms():
+    return render_template("terms.html")
